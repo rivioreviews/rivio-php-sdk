@@ -62,7 +62,4 @@ $result = $rivio->register_postpurchase_email(
 print_r($result);
 ```
 
-## License
-
-See the LICENSE file.
 
