@@ -90,7 +90,7 @@ $result = $rivio->register_postpurchase_email(
     "499"//$product_price
 );
 
-print_r($result);
+var_dump($result);
 //Check your pospurcahse email queue on Rivio Dashboard (http://dashboard.reev.io/dashboard/email/summary)
 ```
 
