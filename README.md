@@ -41,12 +41,25 @@ And then run:
 require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 
 //Copy credentials from Rivio Dashboard (http://dashboard.reev.io/dashboard/settings/business)
-$rivio = new Rivio('api_key','secret_key','ID');
+$rivio = new Rivio('api_key','secret_key');
 
+$result = $rivio->register_postpurchase_email(
+    "1492411013331",//$order_id
+    "2015-09-28T09:16:16-04:00",//$ordered_date
+    "user@example.com",//$customer_email
+    "John",//$customer_first_name
+    "1492411012",//$product_id
+    "Samsung Galaxy S6",//$product_name
+    "This is the product description",//$product_description
+    "https://example.com/products/galaxy-s6",//$product_url
+    "https://images.example.com/big/200",//$product_image_url
+    "1234567890123",//$product_barcode
+    "Mobile phone",//$product_category
+    "Samsung",//$product_brand
+    "499"//$product_price
+);
 
-$result=$rivio->register_postpurchase_email();
-
-var_dump($result);
+print_r($result);
 ```
 
 ## License

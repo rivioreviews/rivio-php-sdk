@@ -8,3 +8,6 @@ npm-debug.log
 /.vagrant/
 /vendor/
 examples/config.php
+Vagrant.bootstrap.sh
+Vagrantfile
+vagrant

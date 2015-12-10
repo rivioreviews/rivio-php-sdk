@@ -54,29 +54,53 @@ class Rivio {
             "orders"=> $orders
         );
 
-        // Setup cURL
-        $ch = curl_init(static::$api_base_url.'/postpurchase?business_id='.$this->business_id.'&reevio_secret_key='.$this->secret_key.'');
-        curl_setopt_array($ch, array(
-            CURLOPT_POST => TRUE,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
-            CURLOPT_POSTFIELDS => json_encode($postBody)
-        ));
+        $url=static::$api_base_url . '/postpurchase?api_key=' . $this->api_key . '&secret_key=' . $this->secret_key . '';
+        if(function_exists('curl_version')) {
+            // Setup cURL
+            $ch = curl_init($url);
+            curl_setopt_array($ch, array(
+                CURLOPT_POST => TRUE,
+                CURLOPT_RETURNTRANSFER => TRUE,
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+                CURLOPT_POSTFIELDS => json_encode($postBody)
+            ));
 
-        // Send the request
-        $response = curl_exec($ch);
+            // Send the request
+            $response = curl_exec($ch);
 
-        // Check for errors
-        if($response === FALSE){
-            throw new Exception(curl_error($ch));
+            // Check for errors
+            if ($response === FALSE) {
+                throw new Exception(curl_error($ch));
+            }
+
+            // Decode the response
+            $responseData = json_decode($response, TRUE);
+        }else{
+            // Create the context for the request
+            $context = stream_context_create(array(
+                'http' => array(
+                 // http://www.php.net/manual/en/context.http.php
+                 'method' => 'POST',
+                 'header' => "Content-Type: application/json\r\n",
+                 'content' => json_encode($postBody)
+                )
+            ));
+
+            // Send the request
+            $response = @file_get_contents($url, FALSE, $context);
+
+            // Check for errors
+            if($response === FALSE){
+                throw new Exception('file_get_contents error, maybe your api_key or secret_key is invalid');
+            }
+
+            // Decode the response
+            $responseData = json_decode($response, TRUE);
         }
 
-        // Decode the response
-        $responseData = json_decode($response, TRUE);
-
-        if($responseData["code"]){
+        if(isset($responseData["code"])){
             throw new Exception($responseData["message"],$responseData["code"]);
         }
 
