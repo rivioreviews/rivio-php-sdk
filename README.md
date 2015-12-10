@@ -33,7 +33,7 @@ And then run:
 
     php composer.phar install
 
-## Quick Start Example
+## Quick Start (Register Postpurchase Email) Example
 
 ```php
 <?php
