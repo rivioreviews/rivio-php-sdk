@@ -13,25 +13,35 @@ class Rivio {
         $this->business_id=$business_id;
     }
 
-    public function get_embed_html(){
-
-    }
-
-    public function register_postpurchase_email(){
+    public function register_postpurchase_email(
+        $order_id,
+        $ordered_date,
+        $customer_email,
+        $customer_first_name,
+        $product_id,
+        $product_name,
+        $product_description = NULL,
+        $product_url = NULL,
+        $product_image_url =  NULL,
+        $product_barcode = NULL,
+        $product_category = NULL ,
+        $product_brand = NULL,
+        $product_price  = NULL
+    ){
         $order=array(
-            "order_id"=> "1492411012",
-            "ordered_date"=>"2015-09-28T09:16:16-04:00",
-            "customer_email"=>"example@email.com",
-            "customer_first_name"=>"Joe",
-            "product_id"=>"1621557380",
-            "product_name"=>"Example product",
-            "product_barcode"=>"545241324753",
-            "product_category"=>"Smart phone",
-            "product_url"=>"http://reevio-dani-test.myshopify.com/products/nexus-5-lg-d821",
-            "product_image_url"=>"https://cdn.shopify.com/s/files/1/0981/5786/products/415925.lg-e960-nexus-4-16gb_1024x1024.jpg?v=1441359580",
-            "product_description"=>"This is the product description",
-            "product_brand"=>"Example brand",
-            "product_price"=>"18.00"
+            "order_id"=> $order_id,
+            "ordered_date"=>$ordered_date,
+            "customer_email"=>$customer_email,
+            "customer_first_name"=>$customer_first_name,
+            "product_id"=>$product_id,
+            "product_name"=>$product_name,
+            "product_description"=>$product_description,
+            "product_url"=>$product_url,
+            "product_image_url"=>$product_image_url,
+            "product_barcode"=>$product_barcode,
+            "product_category"=>$product_category,
+            "product_brand"=>$product_brand,
+            "product_price"=>$product_price
         );
 
         $orders=array($order);
@@ -66,6 +76,41 @@ class Rivio {
         // Decode the response
         $responseData = json_decode($response, TRUE);
 
+        if($responseData["code"]){
+            throw new Exception($responseData["message"],$responseData["code"]);
+        }
+
         return $responseData;
+    }
+
+
+    public function get_embed_html(){
+        $embedHTML="TODO";
+        /*<div class="reevio"
+									     data-reevio-api-key="api-key"
+									     data-reevio-product-id="15264"
+									     data-reevio-name="name"
+									     data-reevio-lang="en"
+									     data-reevio-url="http://example.com/product/22"
+									     data-reevio-type="Smart Phone"
+									     data-reevio-image-url="http://example.com/images/product/22.png"
+									     data-reevio-description="&lt;h2&gt;Férfi futónadrág &lt;/h2&gt;fekete + sárga &lt;br /&gt;&lt;br /&gt;Hátsó cipzáras zsebbel, kopásálló, lapos varrásokkal és fényvisszaverő részékkel. Mínuszban is komfortot ad. Kényelmes, testhezálló szabásával tökéletesen illeszkedik. A meleget benntartó, de a párát kiengedő speciális, lélegző anyagból készült."
+									     data-reevio-barcode="1234567890123"
+									     data-reevio-brand="Samsung"
+									     data-reevio-price="19900">
+									</div><div style="text-align:right"><a href="http://reev.io" style="opacity:0.8;font-size:11px;">Product reviews by Reevio</a></div>
+									</div>
+								  </td>
+                                </tr>
+<script type="text/javascript">
+            (function() {
+                var rvio = document.createElement('script');
+                rvio.type = 'text/javascript';
+                rvio.async = true;
+                rvio.src = 'https://embed.reev.io/init.min.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
+            })();
+</script>	*/
+        return $embedHTML;
     }
 }

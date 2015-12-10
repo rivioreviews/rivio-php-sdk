@@ -5,8 +5,6 @@ npm-debug.log
 /_dev/
 /node_modules/
 /bower_components/
-/embed/bower_components/
 /.vagrant/
 /vendor/
-/Nomo/Templates.twig2php/
-/i18n/locale/en_US/LC_MESSAGES/reevio_generated.po
+examples/config.php
