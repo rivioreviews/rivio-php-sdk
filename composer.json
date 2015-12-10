@@ -1,5 +1,6 @@
 {
   "name": "rivio/rivio-php-sdk",
+  "type": "library",
   "description": "Rivio PHP SDK",
   "license": "MIT",
   "authors": [
@@ -8,13 +9,15 @@
       "email": "george@reev.io"
     }
   ],
-  "require": {},
+  "require": {
+    "php": ">=5.2.0"
+  },
   "archive": {
     "exclude": ["vendor", ".DS_Store", "*.log"]
   },
   "autoload": {
-    "psr-4": {
-      "Rivio": "src/"
+    "psr-0": {
+      "Rivio": "src"
     }
   }
 }
