@@ -34,9 +34,9 @@ try {
         "John",//$customer_first_name
         "1492411012",//$product_id
         "Samsung Galaxy S6",//$product_name
-        "This is the product description",//$product_description
         "https://example.com/products/galaxy-s6",//$product_url
         "https://images.example.com/big/200",//$product_image_url
+        "This is the product description",//$product_description
         "1234567890123",//$product_barcode
         "Mobile phone",//$product_category
         "Samsung",//$product_brand
