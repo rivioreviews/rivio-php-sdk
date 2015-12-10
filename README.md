@@ -64,7 +64,7 @@ $rivio_embed_html=$rivio->get_embed_html(
 </html>
 ```
 
-### Register Postpurchase Email 
+### Register Postpurchase Email
 
 ```php
 <?php
@@ -91,5 +91,6 @@ $result = $rivio->register_postpurchase_email(
 );
 
 print_r($result);
+//Check your pospurcahse email queue on Rivio Dashboard (http://dashboard.reev.io/dashboard/email/summary)
 ```
 
