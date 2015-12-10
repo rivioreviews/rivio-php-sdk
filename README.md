@@ -15,6 +15,8 @@ The following PHP extensions are required:
 
 ###Get started with our PHP SDK by hitting the download link below.
 
+[Download](https://github.com/rivioreviews/rivio-php-sdk/archive/master.zip)
+
 ###Or use composer
 
 [Composer](http://getcomposer.org/doc/01-basic-usage.md) is a package manager for PHP. In the `composer.json` file in your project add:
