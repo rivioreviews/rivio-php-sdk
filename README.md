@@ -7,10 +7,6 @@ The Rivio PHP SDK provides integration access to the Rivio API.
 
 PHP version >= 5.2.0 is required.
 
-The following PHP extensions are required:
-
-* curl
-
 ## Install and configure
 
 ###Get started with our PHP SDK by hitting the download link below.

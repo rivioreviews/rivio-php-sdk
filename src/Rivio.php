@@ -108,7 +108,17 @@ class Rivio {
     }
 
 
-    public function get_embed_html(){
+    public function get_embed_html(
+            $product_id,
+            $product_name,
+            $product_url = NULL,
+            $product_image_url =  NULL,
+            $product_description = NULL,
+            $product_barcode = NULL,
+            $product_category = NULL ,
+            $product_brand = NULL,
+            $product_price  = NULL
+    ){
         $embedHTML="TODO";
         /*<div class="reevio"
 									     data-reevio-api-key="api-key"
