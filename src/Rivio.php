@@ -5,12 +5,15 @@ class Rivio {
     private static $api_base_url='https://api.reev.io/api';
     private $api_key=NULL;
     private $secret_key=NULL;
-    private $business_id=NULL;
+    private $embed_template=NULL;
 
-    function __construct($api_key = NULL,$secret_key = NULL,$business_id = NULL){
+    function __construct($api_key = NULL,$secret_key = NULL){
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
-        $this->business_id=$business_id;
+        $this->set_embed_template();
+
+        //echo $this->embed_template;
+
     }
 
     public function register_postpurchase_email(
@@ -111,40 +114,59 @@ class Rivio {
     public function get_embed_html(
             $product_id,
             $product_name,
-            $product_url = NULL,
-            $product_image_url =  NULL,
-            $product_description = NULL,
-            $product_barcode = NULL,
-            $product_category = NULL ,
-            $product_brand = NULL,
-            $product_price  = NULL
+            $product_url = "",
+            $product_image_url =  "",
+            $product_description = "",
+            $product_barcode = "",
+            $product_category = "" ,
+            $product_brand = "",
+            $product_price  = "",
+            $lang="en"
     ){
-        $embedHTML="TODO";
-        /*<div class="reevio"
-									     data-reevio-api-key="api-key"
-									     data-reevio-product-id="15264"
-									     data-reevio-name="name"
-									     data-reevio-lang="en"
-									     data-reevio-url="http://example.com/product/22"
-									     data-reevio-type="Smart Phone"
-									     data-reevio-image-url="http://example.com/images/product/22.png"
-									     data-reevio-description="&lt;h2&gt;Férfi futónadrág &lt;/h2&gt;fekete + sárga &lt;br /&gt;&lt;br /&gt;Hátsó cipzáras zsebbel, kopásálló, lapos varrásokkal és fényvisszaverő részékkel. Mínuszban is komfortot ad. Kényelmes, testhezálló szabásával tökéletesen illeszkedik. A meleget benntartó, de a párát kiengedő speciális, lélegző anyagból készült."
-									     data-reevio-barcode="1234567890123"
-									     data-reevio-brand="Samsung"
-									     data-reevio-price="19900">
-									</div><div style="text-align:right"><a href="http://reev.io" style="opacity:0.8;font-size:11px;">Product reviews by Reevio</a></div>
-									</div>
-								  </td>
-                                </tr>
+        $template=$this->embed_template;
+
+
+        $template = str_replace("{{api-key}}", $this->api_key ,$template);
+        $template = str_replace("{{product-id}}", $product_id ,$template);
+        $template = str_replace("{{product-name}}", $product_name ,$template);
+        $template = str_replace("{{lang}}", $lang ,$template);
+        $template = str_replace("{{product-url}}", $product_url ,$template);
+        $template = str_replace("{{product-image-url}}", $product_image_url ,$template);
+        $template = str_replace("{{product-description}}", $product_description ,$template);
+        $template = str_replace("{{product-barcode}}", $product_barcode ,$template);
+        $template = str_replace("{{product-category}}", $product_category ,$template);
+        $template = str_replace("{{product-brand}}", $product_brand ,$template);
+        $template = str_replace("{{product-price}}", $product_price ,$template);
+
+        return $template;
+    }
+
+    private function set_embed_template(){
+        ob_start();
+?>
+<div class="reevio"
+    data-reevio-api-key="{{api-key}}"
+    data-reevio-product-id="{{product-id}}"
+    data-reevio-name="{{product-name}}"
+    data-reevio-lang="{{lang}}"
+    data-reevio-url="{{product-url}}"
+    data-reevio-image-url="{{product-image-url}}"
+    data-reevio-description="{{product-description}}"
+    data-reevio-barcode="{{product-barcode}}"
+    data-reevio-type="{{product-category}}"
+    data-reevio-brand="{{product-brand}}"
+    data-reevio-price="{{product-price}}">
+</div><div style="text-align:right"><a href="http://reev.io" style="opacity:0.8;font-size:11px;">Product reviews by Reevio</a></div>
 <script type="text/javascript">
-            (function() {
-                var rvio = document.createElement('script');
-                rvio.type = 'text/javascript';
-                rvio.async = true;
-                rvio.src = 'https://embed.reev.io/init.min.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
-            })();
-</script>	*/
-        return $embedHTML;
+    (function() {
+        var rvio = document.createElement('script');
+        rvio.type = 'text/javascript';
+        rvio.async = true;
+        rvio.src = 'https://embed.reev.io/init.min.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
+    })();
+</script>
+<?php
+        $this->embed_template = ob_get_clean();
     }
 }
