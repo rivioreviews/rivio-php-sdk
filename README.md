@@ -29,7 +29,9 @@ And then run:
 
     php composer.phar install
 
-## Quick Start (Get Embed HTML) Example
+## Quick Start Examples
+
+### Get Embed HTML
 
 ```php
 <?php
@@ -62,7 +64,7 @@ $rivio_embed_html=$rivio->get_embed_html(
 </html>
 ```
 
-## Quick Start (Register Postpurchase Email) Example
+### Register Postpurchase Email 
 
 ```php
 <?php
