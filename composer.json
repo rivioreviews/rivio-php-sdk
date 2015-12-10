@@ -1,0 +1,20 @@
+{
+  "name": "rivio/rivio-php-sdk",
+  "description": "Rivio PHP SDK",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "George Pesti",
+      "email": "george@reev.io"
+    }
+  ],
+  "require": {},
+  "archive": {
+    "exclude": ["vendor", ".DS_Store", "*.log"]
+  },
+  "autoload": {
+    "psr-4": {
+      "Rivio": "src/"
+    }
+  }
+}
