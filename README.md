@@ -33,6 +33,8 @@ And then run:
 
 ### Get Embed HTML
 
+For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.reev.io/dashboard/settings/business" target="_blank">here</a></b>.
+
 ```php
 <?php
 
@@ -66,6 +68,8 @@ $rivio_embed_html=$rivio->get_embed_html(
 
 ### Register Postpurchase Email
 
+For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.reev.io/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
+
 ```php
 <?php
 
@@ -91,6 +95,18 @@ $result = $rivio->register_postpurchase_email(
 );
 
 var_dump($result);
-//Check your pospurcahse email queue on Rivio Dashboard (http://dashboard.reev.io/dashboard/email/summary)
+?>
+<html>
+    <head>
+        <title>Embed module - Rivio PHP SDK example</title>
+    </head>
+    <body>
+        <h1>Rivio Embed Module:</h1>
+        <?php echo $rivio_embed_html;?>
+        <?php echo 'Check your postpurchase email queue on 
+        <a href="http://dashboard.reev.io/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
+        If the "Email status" is "Pending" then the test was successful.';?>
+    </body>
+</html>
 ```
 
