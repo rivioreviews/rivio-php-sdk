@@ -98,14 +98,13 @@ var_dump($result);
 ?>
 <html>
     <head>
-        <title>Embed module - Rivio PHP SDK example</title>
+        <title>Register Postpurchase Email - Rivio PHP SDK example</title>
     </head>
     <body>
-        <h1>Rivio Embed Module:</h1>
-        <?php echo $rivio_embed_html;?>
-        <?php echo 'Check your postpurchase email queue on 
+        <h1>Rivio Register Postpurchase Email</h1>
+        Check your postpurchase email queue on 
         <a href="http://dashboard.reev.io/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
-        If the "Email status" is "Pending" then the test was successful.';?>
+        If the "Email status" is "Pending" then the test was successful.
     </body>
 </html>
 ```
