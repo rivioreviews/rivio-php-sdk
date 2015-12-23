@@ -94,7 +94,6 @@ $result = $rivio->register_postpurchase_email(
     "499"//$product_price
 );
 
-var_dump($result);
 ?>
 <html>
     <head>
