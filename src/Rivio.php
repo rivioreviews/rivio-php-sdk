@@ -2,7 +2,7 @@
 
 
 class Rivio {
-    private static $api_base_url='https://api.reev.io/api';
+    private static $api_base_url='https://api.getrivio.com/api';
     private $api_key=NULL;
     private $secret_key=NULL;
     private $embed_template=NULL;

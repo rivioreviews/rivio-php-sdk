@@ -1,0 +1,13 @@
+{
+  "name": "rivio-php-sdk",
+  "description": "Rivio PHP SDK",
+  "version": "0.1.10",
+  "devDependencies": {
+    "grunt":"",
+    "grunt-bump": "MikeSpock/grunt-bump#master"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rivioreviews/rivio-php-sdk.git"
+  }
+}
