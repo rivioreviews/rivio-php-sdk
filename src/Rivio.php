@@ -5,15 +5,13 @@ class Rivio {
     private static $api_base_url='https://api.getrivio.com/api';
     private $api_key=NULL;
     private $secret_key=NULL;
-    private $embed_template=NULL;
+    private $template_html_embed=NULL;
+    private $template_html_initjs_script=NULL;
 
     function __construct($api_key = NULL,$secret_key = NULL){
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
-        $this->set_embed_template();
-
-        //echo $this->embed_template;
-
+        $this->set_templates();
     }
 
     public function register_postpurchase_email(
@@ -123,7 +121,7 @@ class Rivio {
             $product_price  = "",
             $lang="en"
     ){
-        $template=$this->embed_template;
+        $template=$this->template_html_embed."\n".$this->template_html_initjs_script;
 
 
         $template = str_replace("{{api-key}}", $this->api_key ,$template);
@@ -141,7 +139,10 @@ class Rivio {
         return $template;
     }
 
-    private function set_embed_template(){
+    private function set_templates(){
+
+
+        //EMBED HTML
         ob_start();
 ?>
 <div class="reevio"
@@ -162,11 +163,36 @@ class Rivio {
         var rvio = document.createElement('script');
         rvio.type = 'text/javascript';
         rvio.async = true;
-        rvio.src = 'https://embed.reev.io/init.min.js';
+        rvio.src = 'https://embed.getrivio.com/init.min.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
     })();
 </script>
 <?php
-        $this->embed_template = ob_get_clean();
+        $this->template_html_embed = ob_get_clean();
+
+
+        //INITJS SCRIPT
+        ob_start();
+?>
+        <script type="text/javascript">
+            (function() {
+                var rvio = document.createElement('script');
+                rvio.type = 'text/javascript';
+                rvio.async = true;
+                rvio.src = 'https://embed.getrivio.com/init.min.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
+            })();
+        </script>
+<?php
+        $this->template_html_initjs_script = ob_get_clean();
+
+
+        //INITJS SCRIPT TAG
+        ob_start();
+?>
+        <script type="text/javascript" async="" src="https://embed.getrivio.com/init.min.js?api_key={{api-key}}"></script>
+<?php
+        $this->template_html_initjs_script_tag = ob_get_clean();
+
     }
 }
