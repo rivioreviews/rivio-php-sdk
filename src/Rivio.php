@@ -156,7 +156,7 @@ class Rivio {
     data-reevio-type="{{product-category}}"
     data-reevio-brand="{{product-brand}}"
     data-reevio-price="{{product-price}}">
-</div><div style="text-align:right"><a href="http://reev.io" style="opacity:0.8;font-size:11px;">Product reviews by Reevio</a></div>
+</div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
 <script type="text/javascript">
     (function() {
         var rvio = document.createElement('script');
