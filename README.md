@@ -102,6 +102,8 @@ var_dump($result);
     </head>
     <body>
         <h1>Rivio Register Postpurchase Email</h1>
+        result:
+        <pre><?php print_r($result);?></pre>
         Check your postpurchase email queue on 
         <a href="http://dashboard.reev.io/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
         If the "Email status" is "Pending" then the test was successful.
