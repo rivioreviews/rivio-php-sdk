@@ -50,11 +50,11 @@ try {
 ?>
 <html>
     <head>
-        <title>register postpurchase email - Rivio PHP SDK example</title>
+        <title>Register Postpurchase Email - Rivio PHP SDK example</title>
     </head>
     <body>
-        <h1>Rivio register_postpurchase_email result:</h1>
-        <pre><?php print_r($result);?></pre>
+        <h1>Rivio Register Postpurchase Email</h1>
+        result:
         Check your pospurcahse email queue on Rivio Dashboard:
         <a href="http://dashboard.reev.io/dashboard/email/summary">http://dashboard.reev.io/dashboard/email/summary</a>
     </body>
