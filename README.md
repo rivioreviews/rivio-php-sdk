@@ -101,7 +101,7 @@ $result = $rivio->register_postpurchase_email(
     </head>
     <body>
         <h1>Rivio Register Postpurchase Email</h1>
-        result:
+        <p>result:</p>
         <pre><?php print_r($result);?></pre>
         Check your postpurchase email queue on 
         <a href="http://dashboard.reev.io/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.

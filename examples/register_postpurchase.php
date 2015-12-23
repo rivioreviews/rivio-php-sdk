@@ -54,7 +54,8 @@ try {
     </head>
     <body>
         <h1>Rivio Register Postpurchase Email</h1>
-        result:
+        <p>result:</p>
+        <pre><?php print_r($result);?></pre>
         Check your pospurcahse email queue on Rivio Dashboard:
         <a href="http://dashboard.reev.io/dashboard/email/summary">http://dashboard.reev.io/dashboard/email/summary</a>
     </body>
