@@ -60,7 +60,7 @@ $rivio_embed_html=$rivio->get_embed_html(
         <title>Embed module - Rivio PHP SDK example</title>
     </head>
     <body>
-        <h1>Rivio Embed Module:</h1>
+        <h1>Rivio Embed Module</h1>
         <?php echo $rivio_embed_html;?>
     </body>
 </html>
