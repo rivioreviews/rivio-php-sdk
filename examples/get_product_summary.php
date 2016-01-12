@@ -11,7 +11,7 @@ if(file_exists(__DIR__."/config.php")){
     $rivio_secret_key='your_rivio_secret_key';
 }
 
-//Copy credentials from Rivio Dashboard (http://dashboard.reev.io/dashboard/settings/business)
+//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio($rivio_api_key,$rivio_secret_key);
 
 //Minimal parameters list
@@ -57,6 +57,6 @@ try {
         <p>result:</p>
         <pre><?php print_r($result);?></pre>
         Check your pospurcahse email queue on Rivio Dashboard:
-        <a href="http://dashboard.reev.io/dashboard/email/summary">http://dashboard.reev.io/dashboard/email/summary</a>
+        <a href="http://dashboard.getrivio.com/dashboard/email/summary">http://dashboard.getrivio.com/dashboard/email/summary</a>
     </body>
 </html>

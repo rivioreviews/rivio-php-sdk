@@ -33,14 +33,14 @@ And then run:
 
 ### Get Embed HTML
 
-For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.reev.io/dashboard/settings/business" target="_blank">here</a></b>.
+For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.
 
 ```php
 <?php
 
 require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 
-//Copy credentials from Rivio Dashboard (http://dashboard.reev.io/dashboard/settings/business)
+//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio('api_key','secret_key');
 
 $rivio_embed_html=$rivio->get_embed_html(
@@ -68,14 +68,14 @@ $rivio_embed_html=$rivio->get_embed_html(
 
 ### Register Postpurchase Email
 
-For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.reev.io/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
+For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
 
 ```php
 <?php
 
 require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 
-//Copy credentials from Rivio Dashboard (http://dashboard.reev.io/dashboard/settings/business)
+//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio('api_key','secret_key');
 
 $result = $rivio->register_postpurchase_email(
@@ -104,7 +104,7 @@ $result = $rivio->register_postpurchase_email(
         <p>result:</p>
         <pre><?php print_r($result);?></pre>
         Check your postpurchase email queue on 
-        <a href="http://dashboard.reev.io/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
+        <a href="http://dashboard.getrivio.com/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
         If the "Email status" is "Pending" then the test was successful.
     </body>
 </html>
