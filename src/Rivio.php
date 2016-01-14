@@ -112,7 +112,7 @@ class Rivio {
     }
 
 
-    public function get_embed_html(
+    public function get_embed_widget(
             $product_id,
             $product_name,
             $product_url = "",
@@ -180,7 +180,7 @@ class Rivio {
 
     }
 
-    public function product_stars($product_id){
+    public function get_stars_widget($product_id){
 
         // PRODUCT STARS
         ob_start();

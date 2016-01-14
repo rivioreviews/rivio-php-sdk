@@ -31,7 +31,7 @@ And then run:
 
 ## Quick Start Examples
 
-### Get Embed HTML
+### Get Embed Widget
 
 For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.
 
@@ -71,7 +71,7 @@ $rivio_init_is=$rivio->get_init_js();
 </html>
 ```
 
-### Register Postpurchase Email
+### Register Post-purchase Email
 
 For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
 
@@ -115,7 +115,7 @@ $result = $rivio->register_postpurchase_email(
 </html>
 ```
 
-### Get product ratings
+### Get Stars Widget
 
 For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
 

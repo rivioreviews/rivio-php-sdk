@@ -17,7 +17,7 @@ $rivio = new Rivio($rivio_api_key,$rivio_secret_key);
 //Get the RIVIO script
 $rivio_init_script=$rivio->get_init_js();
 
-$rivio_embed_html=$rivio->get_embed_html(
+$rivio_embed_html=$rivio->get_embed_widget(
     "1492411012",//$product_id
     "Samsung Galaxy S6",//$product_name
     "https://example.com/products/galaxy-s6",//$product_url
