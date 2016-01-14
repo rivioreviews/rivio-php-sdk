@@ -43,6 +43,9 @@ require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 //Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio('api_key','secret_key');
 
+//Get the RIVIO script
+$rivio_init_script=$rivio->get_init_js();
+
 $rivio_embed_html=$rivio->get_embed_html(
     "1492411012",//$product_id
     "Samsung Galaxy S6",//$product_name
@@ -54,6 +57,7 @@ $rivio_embed_html=$rivio->get_embed_html(
     "Samsung",//$product_brand
     "499"//$product_price
 );
+$rivio_init_is=$rivio->get_init_js();
 ?>
 <html>
     <head>
@@ -62,6 +66,7 @@ $rivio_embed_html=$rivio->get_embed_html(
     <body>
         <h1>Rivio Embed Module</h1>
         <?php echo $rivio_embed_html;?>
+        <?php echo $rivio_init_script;?>
     </body>
 </html>
 ```
@@ -110,3 +115,50 @@ $result = $rivio->register_postpurchase_email(
 </html>
 ```
 
+### Get product ratings
+
+For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.<br>After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
+
+```php
+<?php
+
+require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
+
+//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
+$rivio = new Rivio('api_key','secret_key');
+
+//Get the RIVIO script
+$rivio_init_script=$rivio->get_init_js();
+
+?>
+
+<html>
+    <head>
+        <title>Product rating module - Rivio PHP SDK example</title>
+    </head>
+    <body>
+        <h1>
+            Product rating stars example
+        </h1>
+        <div>
+            <h2>
+                Smartphone6
+            </h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
+            </p>
+            <?php echo $rivio->product_stars('3409787460');?> <!-- Get product rating stars with the id of the product-->
+        </div>
+        <div>
+            <h2>
+                Smarphone6s
+            </h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
+            </p>
+            <?php echo $rivio->product_stars('3409788036');?> <!-- Get product rating stars with the id of the product-->
+        </div>
+        <?php echo $rivio_init_script;?>
+    </body>
+</html>
+```

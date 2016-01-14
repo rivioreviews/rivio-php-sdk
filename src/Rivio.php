@@ -6,7 +6,8 @@ class Rivio {
     private $api_key=NULL;
     private $secret_key=NULL;
     private $template_html_embed=NULL;
-    private $template_html_initjs_script=NULL;
+    private $template_initjs_script_tag=NULL;
+    private $template_product_stars=NULL;
 
     function __construct($api_key = NULL,$secret_key = NULL){
         $this->api_key=$api_key;
@@ -55,10 +56,12 @@ class Rivio {
             "orders"=> $orders
         );
 
-        $url=static::$api_base_url . '/postpurchase?api_key=' . $this->api_key . '&secret_key=' . $this->secret_key . '';
+        $url=static::$api_base_url . '/postpurchase?api_key=' . $this->api_key . '&secret_key=' . $this->secret_key;
+
         if(function_exists('curl_version')) {
             // Setup cURL
             $ch = curl_init($url);
+
             curl_setopt_array($ch, array(
                 CURLOPT_POST => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
@@ -121,8 +124,7 @@ class Rivio {
             $product_price  = "",
             $lang="en"
     ){
-        $template=$this->template_html_embed."\n".$this->template_html_initjs_script;
-
+        $template=$this->template_html_embed;
 
         $template = str_replace("{{api-key}}", $this->api_key ,$template);
         $template = str_replace("{{product-id}}", $product_id ,$template);
@@ -137,6 +139,13 @@ class Rivio {
         $template = str_replace("{{product-price}}", $product_price ,$template);
 
         return $template;
+    }
+
+    public function get_init_js(){
+        $scriptTag =  $this->template_initjs_script_tag;
+        $scriptTag = str_replace("{{api-key}}", $this->api_key ,$scriptTag);
+
+        return $scriptTag;
     }
 
     private function set_templates(){
@@ -158,33 +167,8 @@ class Rivio {
     data-reevio-brand="{{product-brand}}"
     data-reevio-price="{{product-price}}">
 </div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
-<script type="text/javascript">
-    (function() {
-        var rvio = document.createElement('script');
-        rvio.type = 'text/javascript';
-        rvio.async = true;
-        rvio.src = 'https://embed.getrivio.com/init.min.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
-    })();
-</script>
 <?php
         $this->template_html_embed = ob_get_clean();
-
-
-        //INITJS SCRIPT
-        ob_start();
-?>
-        <script type="text/javascript">
-            (function() {
-                var rvio = document.createElement('script');
-                rvio.type = 'text/javascript';
-                rvio.async = true;
-                rvio.src = 'https://embed.getrivio.com/init.min.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(rvio);
-            })();
-        </script>
-<?php
-        $this->template_html_initjs_script = ob_get_clean();
 
 
         //INITJS SCRIPT TAG
@@ -192,7 +176,35 @@ class Rivio {
 ?>
         <script type="text/javascript" async="" src="https://embed.getrivio.com/init.min.js?api_key={{api-key}}"></script>
 <?php
-        $this->template_html_initjs_script_tag = ob_get_clean();
+        $this->template_initjs_script_tag = ob_get_clean();
 
     }
+
+    public function product_stars($product_id){
+
+        // PRODUCT STARS
+        ob_start();
+?>
+
+<div class="rivio-snipet"
+     data-rivio-product-id="{{product_id}}">
+    <span class="rivio-display-wrapper" style="display: none;">
+        <div class="rivio-standalone-bottomline">
+            <div class="rivio-bottomline">
+            </div>
+            <div class="rivio-clr"></div>
+        </div>
+        <div class="rivio-clr"></div>
+    </span>
+</div>
+
+<?php
+
+        $template = $this->template_product_stars = ob_get_clean();
+        $template = str_replace("{{product_id}}", $product_id ,$template);
+
+        return $template;
+    }
 }
+
+?>

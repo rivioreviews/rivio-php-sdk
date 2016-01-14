@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . '/../src/Rivio.php';
 
-
 //create config.php file from config.sample.php and set your rivio keys
 if(file_exists(__DIR__."/config.php")){
     require_once(__DIR__."/config.php");
@@ -14,6 +13,9 @@ if(file_exists(__DIR__."/config.php")){
 
 //Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio($rivio_api_key,$rivio_secret_key);
+
+//Get the RIVIO script
+$rivio_init_script=$rivio->get_init_js();
 
 $rivio_embed_html=$rivio->get_embed_html(
     "1492411012",//$product_id
@@ -34,5 +36,6 @@ $rivio_embed_html=$rivio->get_embed_html(
     <body>
         <h1>Rivio Embed Module</h1>
         <?php echo $rivio_embed_html;?>
+        <?php echo $rivio_init_script;?>
     </body>
 </html>
