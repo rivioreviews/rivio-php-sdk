@@ -186,17 +186,7 @@ class Rivio {
         ob_start();
 ?>
 
-<div class="rivio-snipet"
-     data-rivio-product-id="{{product_id}}">
-    <span class="rivio-display-wrapper" style="display: none;">
-        <div class="rivio-standalone-bottomline">
-            <div class="rivio-bottomline">
-            </div>
-            <div class="rivio-clr"></div>
-        </div>
-        <div class="rivio-clr"></div>
-    </span>
-</div>
+<div class="rivio-stars-widget" data-rivio-stars-widget-product-id="{{product_id}}"></div>
 
 <?php
 
