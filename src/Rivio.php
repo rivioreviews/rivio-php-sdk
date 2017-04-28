@@ -222,6 +222,180 @@ class Rivio {
         }
 
     }
+
+
+    public function get_reviews_json($productId) {
+
+        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
+
+        if ($productId) {
+            $url .= "&product_id=" . $productId;
+        }
+
+        $result = Rivio::fetchUrl($url);
+        $json_result = json_decode($result,true);
+
+        if ($json_result === null) {
+            throw new Exception('Server responded with invalid json format');
+        }
+
+        return $json_result;
+    }
+
+    public function get_reviews_html($productId) {
+
+        $json_result = $this->get_reviews_json($productId);
+
+        $shopItem = $json_result[0];
+
+        $reviews = $shopItem['reviews'];
+
+        $style = '
+            <style type="text/css">
+                .rivio {
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-size: 14px;
+                }
+                .rivio hr {
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    border: 0;
+                    border-top: 1px solid #dadada;
+                    box-sizing: content-box;
+                    height: 0;
+                }
+                .rivio-star {
+                    color: #ffd200;
+                    text-shadow: 0 1px 0 #cb9500;
+                }
+                .rivio-star.full:after {
+                    content: "\2605";
+                }
+                .rivio-star.empty:after {
+                    content: "\2606";
+                }
+                .rivio-review p {
+                    margin: 0 0 10px;
+                }
+                .rivio-review {
+                    display: table;
+                }
+                .rivio-body-left {
+                    display: table-cell;
+                    padding-right: 10px;
+                    vertical-align: top;
+                }
+                .rivio-review-avatar {
+                    background-color: #0c94b6;
+                    color: #ffffff;
+                    text-align: center;
+                    font-size: 20px;
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 100px;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    background-size: cover;
+                    padding: 0;
+                }
+                .rivio-review-avatar p {
+                    text-transform: uppercase;
+                    line-height: 48px;
+                }
+                .rivio-review-body {
+                    display: table-cell;
+                    width: 100%;
+                }
+                .rivio-review-body-date {
+                    float: right;
+                    color: #777777;
+                }
+                .rivio-review-body-username {
+                    font-size: 12px;
+                    color: #0c94b6;
+                }
+                .rivio-review-body-rating {
+                    font-size: 18px;
+                }
+                .rivio-review-body-title {
+                    font-weight: bold;
+                }
+            </style>
+        ';
+
+        $template = '<div class="rivio">';
+
+        foreach ($reviews as $review) {
+            $reviewTemplate = '
+                <hr>
+                <div class="rivio-review">
+                    <div class="rivio-body-left">
+                        <div class="rivio-review-avatar">
+                            <p>
+                                {{user-capital}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="rivio-review-body">
+                        <div class="rivio-review-body-date">
+                            <p>
+                                {{review-date}}
+                            </p>
+                        </div>
+                        <div class="rivio-review-body-username">
+                            <p>
+                                {{user-name}}
+                            </p>
+                        </div>
+                        <div class="rivio-review-body-rating">
+                            <p>
+                                {{rating-stars}}
+                            </p>
+                        </div>
+                        <div class="rivio-review-body-title">
+                            <p>
+                                {{title}}
+                            </p>
+                        </div>
+                        <div class="rivio-review-body-body">
+                            <p>
+                                {{body}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ';
+
+            $ratingStars = '';
+
+            $i = 0;
+            while ($i < 5) {
+                if ($i < $review['rating']) {
+                    $ratingStars .= '<span class="rivio-star full"></span>';
+                } else {
+                    $ratingStars .= '<span class="rivio-star empty"></span>';
+                }
+                $i++;
+            }
+
+            $reviewDate = strtotime($review['created_at']);
+            $reviewDate = date("n/j/y", $reviewDate);
+
+            $reviewTemplate = str_replace('{{user-capital}}', substr($review['user_name'],0,1), $reviewTemplate);
+            $reviewTemplate = str_replace('{{review-date}}', $reviewDate, $reviewTemplate);
+            $reviewTemplate = str_replace('{{user-name}}', $review['user_name'], $reviewTemplate);
+            $reviewTemplate = str_replace('{{rating-stars}}', $ratingStars, $reviewTemplate);
+            $reviewTemplate = str_replace('{{title}}', $review['title'], $reviewTemplate);
+            $reviewTemplate = str_replace('{{body}}', $review['body'], $reviewTemplate);
+
+            $template .= $reviewTemplate;
+        }
+
+        $template .= '</div>';
+
+        echo $style . $template;
+
+    }
 }
 
 ?>
