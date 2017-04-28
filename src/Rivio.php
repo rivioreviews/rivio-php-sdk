@@ -122,8 +122,12 @@ class Rivio {
         $product_category = "" ,
         $product_brand = "",
         $product_price  = "",
-        $lang="en"
+        $lang = "en",
+        $server_side_rendering = false
     ){
+
+        $server_side_html = $server_side_rendering ? $this->get_reviews_html($product_id) : '';
+
         $template=$this->template_html_embed;
 
         $template = str_replace("{{api-key}}", $this->api_key ,$template);
@@ -137,6 +141,7 @@ class Rivio {
         $template = str_replace("{{product-category}}", $product_category ,$template);
         $template = str_replace("{{product-brand}}", $product_brand ,$template);
         $template = str_replace("{{product-price}}", $product_price ,$template);
+        $template = str_replace("{{server-side-html}}", $server_side_html ,$template);
 
         return $template;
     }
@@ -154,18 +159,19 @@ class Rivio {
         //EMBED HTML
         ob_start();
         ?>
-        <div class="reevio"
-             data-reevio-api-key="{{api-key}}"
-             data-reevio-product-id="{{product-id}}"
-             data-reevio-name="{{product-name}}"
-             data-reevio-lang="{{lang}}"
-             data-reevio-url="{{product-url}}"
-             data-reevio-image-url="{{product-image-url}}"
-             data-reevio-description="{{product-description}}"
-             data-reevio-barcode="{{product-barcode}}"
-             data-reevio-type="{{product-category}}"
-             data-reevio-brand="{{product-brand}}"
-             data-reevio-price="{{product-price}}">
+        <div class="rivio-embed"
+             data-rivio-api-key="{{api-key}}"
+             data-rivio-product-id="{{product-id}}"
+             data-rivio-name="{{product-name}}"
+             data-rivio-lang="{{lang}}"
+             data-rivio-url="{{product-url}}"
+             data-rivio-image-url="{{product-image-url}}"
+             data-rivio-description="{{product-description}}"
+             data-rivio-barcode="{{product-barcode}}"
+             data-rivio-type="{{product-category}}"
+             data-rivio-brand="{{product-brand}}"
+             data-rivio-price="{{product-price}}">
+            {{server-side-html}}
         </div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
         <?php
         $this->template_html_embed = ob_get_clean();
@@ -223,15 +229,10 @@ class Rivio {
 
     }
 
-
     public function get_reviews_json($productId) {
 
-        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
-
-        if ($productId) {
-            $url .= "&product_id=" . $productId;
-        }
-
+        //$url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
+        $url = "http://9ec5a104.ngrok.io/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
         $result = Rivio::fetchUrl($url);
         $json_result = json_decode($result,true);
 
@@ -255,7 +256,6 @@ class Rivio {
         $css = fread($cssFile, filesize($cssPath));
         fclose($cssFile);
 
-        //require_once(__DIR__."/config.php");
         $styleTag = '<style type="text/css">' . $css . '</style>';
 
         $template = '';
@@ -294,8 +294,25 @@ class Rivio {
             $template .= $reviewTemplate;
         }
 
-        echo $styleTag . $template;
+        return $styleTag . $template;
 
+    }
+
+    public function get_json_cache($path) {
+        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
+
+        $result = Rivio::fetchUrl($url);
+        $json_result = json_decode($result,true);
+
+        /*foreach () {
+            $json_result
+        }*/
+
+        if ($json_result === null) {
+            throw new Exception('Server responded with invalid json format');
+        }
+
+        return $json_result;
     }
 }
 
