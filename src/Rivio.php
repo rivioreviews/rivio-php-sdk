@@ -85,10 +85,10 @@ class Rivio {
             // Create the context for the request
             $context = stream_context_create(array(
                 'http' => array(
-                 // http://www.php.net/manual/en/context.http.php
-                 'method' => 'POST',
-                 'header' => "Content-Type: application/json\r\n",
-                 'content' => json_encode($postBody)
+                    // http://www.php.net/manual/en/context.http.php
+                    'method' => 'POST',
+                    'header' => "Content-Type: application/json\r\n",
+                    'content' => json_encode($postBody)
                 )
             ));
 
@@ -113,16 +113,16 @@ class Rivio {
 
 
     public function get_embed_widget(
-            $product_id,
-            $product_name,
-            $product_url = "",
-            $product_image_url =  "",
-            $product_description = "",
-            $product_barcode = "",
-            $product_category = "" ,
-            $product_brand = "",
-            $product_price  = "",
-            $lang="en"
+        $product_id,
+        $product_name,
+        $product_url = "",
+        $product_image_url =  "",
+        $product_description = "",
+        $product_barcode = "",
+        $product_category = "" ,
+        $product_brand = "",
+        $product_price  = "",
+        $lang="en"
     ){
         $template=$this->template_html_embed;
 
@@ -153,29 +153,29 @@ class Rivio {
 
         //EMBED HTML
         ob_start();
-?>
-<div class="reevio"
-    data-reevio-api-key="{{api-key}}"
-    data-reevio-product-id="{{product-id}}"
-    data-reevio-name="{{product-name}}"
-    data-reevio-lang="{{lang}}"
-    data-reevio-url="{{product-url}}"
-    data-reevio-image-url="{{product-image-url}}"
-    data-reevio-description="{{product-description}}"
-    data-reevio-barcode="{{product-barcode}}"
-    data-reevio-type="{{product-category}}"
-    data-reevio-brand="{{product-brand}}"
-    data-reevio-price="{{product-price}}">
-</div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
-<?php
+        ?>
+        <div class="reevio"
+             data-reevio-api-key="{{api-key}}"
+             data-reevio-product-id="{{product-id}}"
+             data-reevio-name="{{product-name}}"
+             data-reevio-lang="{{lang}}"
+             data-reevio-url="{{product-url}}"
+             data-reevio-image-url="{{product-image-url}}"
+             data-reevio-description="{{product-description}}"
+             data-reevio-barcode="{{product-barcode}}"
+             data-reevio-type="{{product-category}}"
+             data-reevio-brand="{{product-brand}}"
+             data-reevio-price="{{product-price}}">
+        </div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
+        <?php
         $this->template_html_embed = ob_get_clean();
 
 
         //INITJS SCRIPT TAG
         ob_start();
-?>
+        ?>
         <script type="text/javascript" async="" src="https://embed.getrivio.com/init.min.js?api_key={{api-key}}"></script>
-<?php
+        <?php
         $this->template_initjs_script_tag = ob_get_clean();
 
     }
@@ -184,11 +184,11 @@ class Rivio {
 
         // PRODUCT STARS
         ob_start();
-?>
+        ?>
 
-<div class="rivio-stars-widget" data-rivio-stars-widget-product-id="{{product_id}}"></div>
+        <div class="rivio-stars-widget" data-rivio-stars-widget-product-id="{{product_id}}"></div>
 
-<?php
+        <?php
 
         $template = $this->template_product_stars = ob_get_clean();
         $template = str_replace("{{product_id}}", $product_id ,$template);
@@ -250,121 +250,24 @@ class Rivio {
 
         $reviews = $shopItem['reviews'];
 
-        $style = '
-            <style type="text/css">
-                .rivio {
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                    font-size: 14px;
-                }
-                .rivio hr {
-                    margin-top: 20px;
-                    margin-bottom: 20px;
-                    border: 0;
-                    border-top: 1px solid #dadada;
-                    box-sizing: content-box;
-                    height: 0;
-                }
-                .rivio-star {
-                    color: #ffd200;
-                    text-shadow: 0 1px 0 #cb9500;
-                }
-                .rivio-star.full:after {
-                    content: "\2605";
-                }
-                .rivio-star.empty:after {
-                    content: "\2606";
-                }
-                .rivio-review p {
-                    margin: 0 0 10px;
-                }
-                .rivio-review {
-                    display: table;
-                }
-                .rivio-body-left {
-                    display: table-cell;
-                    padding-right: 10px;
-                    vertical-align: top;
-                }
-                .rivio-review-avatar {
-                    background-color: #0c94b6;
-                    color: #ffffff;
-                    text-align: center;
-                    font-size: 20px;
-                    width: 48px;
-                    height: 48px;
-                    border-radius: 100px;
-                    background-repeat: no-repeat;
-                    background-position: center center;
-                    background-size: cover;
-                    padding: 0;
-                }
-                .rivio-review-avatar p {
-                    text-transform: uppercase;
-                    line-height: 48px;
-                }
-                .rivio-review-body {
-                    display: table-cell;
-                    width: 100%;
-                }
-                .rivio-review-body-date {
-                    float: right;
-                    color: #777777;
-                }
-                .rivio-review-body-username {
-                    font-size: 12px;
-                    color: #0c94b6;
-                }
-                .rivio-review-body-rating {
-                    font-size: 18px;
-                }
-                .rivio-review-body-title {
-                    font-weight: bold;
-                }
-            </style>
-        ';
+        $cssPath = __DIR__."/assets/review.css";
+        $cssFile = fopen($cssPath, "r");
+        $css = fread($cssFile, filesize($cssPath));
+        fclose($cssFile);
 
-        $template = '<div class="rivio">';
+        //require_once(__DIR__."/config.php");
+        $styleTag = '<style type="text/css">' . $css . '</style>';
+
+        $template = '';
+
+        $htmlPath = __DIR__."/assets/review.html";
+        $htmlFile = fopen($htmlPath, "r");
+        $html = fread($htmlFile, filesize($htmlPath));
+        fclose($htmlFile);
 
         foreach ($reviews as $review) {
-            $reviewTemplate = '
-                <hr>
-                <div class="rivio-review">
-                    <div class="rivio-body-left">
-                        <div class="rivio-review-avatar">
-                            <p>
-                                {{user-capital}}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="rivio-review-body">
-                        <div class="rivio-review-body-date">
-                            <p>
-                                {{review-date}}
-                            </p>
-                        </div>
-                        <div class="rivio-review-body-username">
-                            <p>
-                                {{user-name}}
-                            </p>
-                        </div>
-                        <div class="rivio-review-body-rating">
-                            <p>
-                                {{rating-stars}}
-                            </p>
-                        </div>
-                        <div class="rivio-review-body-title">
-                            <p>
-                                {{title}}
-                            </p>
-                        </div>
-                        <div class="rivio-review-body-body">
-                            <p>
-                                {{body}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            ';
+
+            $reviewTemplate = $html;
 
             $ratingStars = '';
 
@@ -391,9 +294,7 @@ class Rivio {
             $template .= $reviewTemplate;
         }
 
-        $template .= '</div>';
-
-        echo $style . $template;
+        echo $styleTag . $template;
 
     }
 }
