@@ -232,8 +232,7 @@ class Rivio {
 
     public function get_reviews_json($productId) {
 
-        //$url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
-        $url = "http://9ec5a104.ngrok.io/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
+        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
         $result = Rivio::fetchUrl($url);
         $json_result = json_decode($result,true);
 
