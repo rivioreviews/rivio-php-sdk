@@ -9,9 +9,10 @@ class Rivio {
     private $template_initjs_script_tag=NULL;
     private $template_product_stars=NULL;
 
-    function __construct($api_key = NULL,$secret_key = NULL){
+    function __construct($api_key = NULL,$secret_key = NULL,$options = NULL){
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
+        $this->options=$options;
         $this->set_templates();
     }
 
@@ -251,13 +252,6 @@ class Rivio {
 
         $reviews = $shopItem['reviews'];
 
-        $cssPath = __DIR__."/assets/review.css";
-        $cssFile = fopen($cssPath, "r");
-        $css = fread($cssFile, filesize($cssPath));
-        fclose($cssFile);
-
-        $styleTag = '<style type="text/css">' . $css . '</style>';
-
         $template = '';
 
         $htmlPath = __DIR__."/assets/review.html";
@@ -294,25 +288,34 @@ class Rivio {
             $template .= $reviewTemplate;
         }
 
-        return $styleTag . $template;
+        return $template;
 
     }
 
-    public function get_json_cache($path) {
+    public function get_json_cache() {
+
         $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
 
         $result = Rivio::fetchUrl($url);
-        $json_result = json_decode($result,true);
+        $products = json_decode($result,true);
 
-        /*foreach () {
-            $json_result
-        }*/
-
-        if ($json_result === null) {
+        if ($products === null) {
             throw new Exception('Server responded with invalid json format');
         }
 
-        return $json_result;
+        $path = __DIR__ . "/rivio_cache";
+
+        if (isset($this->options) && isset($this->options['cache']) && isset($this->options['cache']['path']) && (isset($this->options['cache']['type']) && $this->options['cache']['type'] == "file_storage")) {
+            $path = $this->options['cache']['path'];
+        }
+
+        foreach ($products as $product) {
+            $jsonCacheFile = fopen($path."/".$product['product_id'].".json", "w+");
+            fwrite($jsonCacheFile, json_encode($product));
+            fclose($jsonCacheFile);
+        }
+
+        return $products;
     }
 }
 
