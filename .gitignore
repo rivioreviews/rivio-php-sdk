@@ -11,5 +11,3 @@ examples/config.php
 Vagrant.bootstrap.sh
 Vagrantfile
 vagrant
-/config.php
-/index.php

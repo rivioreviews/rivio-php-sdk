@@ -1,28 +1,28 @@
 
-.rivio {
+.rivio-reviews-reviews {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
-.rivio-star {
+.rivio-reviews-star {
     color: #ffd200;
     text-shadow: 0 1px 0 #cb9500;
     font-size: 20px;
 }
 
-.rivio-star.full:after {
+.rivio-reviews-star.full:after {
     content: "\2605";
 }
 
-.rivio-star.empty:after {
+.rivio-reviews-star.empty:after {
     content: "\2606";
 }
 
-.rivio-review {
+.rivio-reviews-review {
     display: table;
 }
 
-.rivio-review > hr {
+.rivio-reviews-review > hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
@@ -31,17 +31,17 @@
     height: 0;
 }
 
-.rivio-review p {
+.rivio-reviews-review p {
     margin: 0 0 10px;
 }
 
-.rivio-review-left {
+.rivio-reviews-review-left {
     display: table-cell;
     padding-right: 10px;
     vertical-align: top;
 }
 
-.rivio-review-avatar {
+.rivio-reviews-review-avatar {
     background-color: #0c94b6;
     color: #ffffff;
     text-align: center;
@@ -55,26 +55,26 @@
     padding: 0;
 }
 
-.rivio-review-avatar p {
+.rivio-reviews-review-avatar p {
     text-transform: uppercase;
     line-height: 48px;
 }
 
-.rivio-review-body {
+.rivio-reviews-review-body {
     display: table-cell;
     width: 100%;
 }
 
-.rivio-review-body-date {
+.rivio-reviews-review-body-date {
     float: right;
     color: #777777;
 }
 
-.rivio-review-body-username {
+.rivio-reviews-review-body-username {
     font-size: 12px;
     color: #0c94b6;
 }
 
-.rivio-review-body-title {
+.rivio-reviews-review-body-title {
     font-weight: bold;
 }

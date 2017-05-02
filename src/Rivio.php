@@ -2,7 +2,7 @@
 
 
 class Rivio {
-    private static $api_base_url='https://api.getrivio.com/api';
+    private static $api_base_url;
     private $api_key=NULL;
     private $secret_key=NULL;
     private $template_html_embed=NULL;
@@ -10,10 +10,12 @@ class Rivio {
     private $template_product_stars=NULL;
 
     function __construct($api_key = NULL,$secret_key = NULL,$options = NULL){
+        self::$api_base_url= (defined('RIVIO_API_BASE_URL') ? RIVIO_API_BASE_URL : 'https://api.getrivio.com/api');
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
         $this->options=$options;
         $this->set_templates();
+        $this->initCache();
     }
 
     public function register_postpurchase_email(
@@ -220,7 +222,7 @@ class Rivio {
     }
 
     public function get_rating($product_id){
-        $result = Rivio::fetchUrl("https://api.getrivio.com/api/review/product-ratings?api_key=".$this->api_key."&product_ids=".$product_id);
+        $result = Rivio::fetchUrl(self::$api_base_url."/review/product-ratings?api_key=".$this->api_key."&product_ids=".$product_id);
         $json_result = json_decode($result,true);
         if($json_result === null){
             throw new Exception('Server responded with invalid json format');
@@ -232,7 +234,7 @@ class Rivio {
 
     public function get_reviews_json($productId) {
 
-        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
+        $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
         $result = Rivio::fetchUrl($url);
         $json_result = json_decode($result,true);
 
@@ -250,7 +252,7 @@ class Rivio {
                 $options = [
                     "cache" => [
                         "type" => "file_storage",
-                        "path" => __DIR__ . "/rivio-cache"
+                        "path" => __DIR__ . "/rivio_cache"
                     ],
                 ];
             ');
@@ -263,7 +265,7 @@ class Rivio {
                 $options = [
                     "cache" => [
                         "type" => "file_storage",
-                        "path" => __DIR__ . "/rivio-cache"
+                        "path" => __DIR__ . "/rivio_cache"
                     ],
             ];');
         }
@@ -285,7 +287,7 @@ class Rivio {
 
         $template = '';
 
-        $htmlPath = __DIR__."/assets/review.html";
+        $htmlPath = __DIR__ . "/templates/review.html";
         $htmlFile = fopen($htmlPath, "r");
         $html = fread($htmlFile, filesize($htmlPath));
         fclose($htmlFile);
@@ -299,9 +301,9 @@ class Rivio {
             $i = 0;
             while ($i < 5) {
                 if ($i < $review['rating']) {
-                    $ratingStars .= '<span class="rivio-star full"></span>';
+                    $ratingStars .= '<span class="rivio-reviews-star full"></span>';
                 } else {
-                    $ratingStars .= '<span class="rivio-star empty"></span>';
+                    $ratingStars .= '<span class="rivio-reviews-star empty"></span>';
                 }
                 $i++;
             }
@@ -323,21 +325,39 @@ class Rivio {
 
     }
 
-    public function get_json_cache() {
+    public function get_json_cache($date = NULL) {
 
-        $url = "https://api.getrivio.com/api/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
+        $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
+
+        if (!is_null($date)) {
+            $url .= "&last_updated_at_is_gt=".$date;
+        }
 
         $result = Rivio::fetchUrl($url);
+
+        $products = [];
+
+        if (!$result) {
+            return $products;
+        }
+
         $products = json_decode($result,true);
 
         if ($products === null) {
             throw new Exception('Server responded with invalid json format');
         }
 
-        $path = __DIR__ . "/rivio_cache";
-
         if (isset($this->options) && isset($this->options['cache']) && isset($this->options['cache']['path']) && (isset($this->options['cache']['type']) && $this->options['cache']['type'] == "file_storage")) {
             $path = $this->options['cache']['path'];
+        } else {
+            throw new Exception('Options array cache is not set. Example array:
+                $options = [
+                    "cache" => [
+                        "type" => "file_storage",
+                        "path" => __DIR__ . "/rivio_cache"
+                    ],
+                ];
+            ');
         }
 
         foreach ($products as $product) {
@@ -348,6 +368,45 @@ class Rivio {
 
         return $products;
     }
+
+    public function execute_cron($date) {
+        $this->get_json_cache($date);
+    }
+
+    public function initCache() {
+
+        $cacheAvailable = false;
+
+        if (isset($this->options) && isset($this->options['cache']) && isset($this->options['cache']['path']) && (isset($this->options['cache']['type']) && $this->options['cache']['type'] == "file_storage")) {
+            $cachePath = $this->options['cache']['path'];
+        } else {
+            throw new Exception('Options array cache is not set. Example array:
+                $options = [
+                    "cache" => [
+                        "type" => "file_storage",
+                        "path" => __DIR__ . "/rivio_cache"
+                    ],
+                ];
+            ');
+        }
+
+        if (is_readable($cachePath)) {
+            $handle = opendir($cachePath);
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $cacheAvailable = true;
+                }
+            }
+        } else {
+            mkdir($cachePath, 0777, true);
+        };
+
+        if (!$cacheAvailable) {
+            $this->get_json_cache();
+        }
+
+    }
+
 }
 
 ?>
