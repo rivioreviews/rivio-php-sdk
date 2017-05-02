@@ -245,9 +245,41 @@ class Rivio {
 
     public function get_reviews_html($productId) {
 
-        $json_result = $this->get_reviews_json($productId);
+        if (!isset($this->options)) {
+            throw new Exception('Options array cache is not set. Example array:
+                $options = [
+                    "cache" => [
+                        "type" => "file_storage",
+                        "path" => __DIR__ . "/rivio-cache"
+                    ],
+                ];
+            ');
+        }
 
-        $shopItem = $json_result[0];
+        if (isset($this->options['cache']) && isset($this->options['cache']['path']) && isset($this->options['cache']['type'])) {
+            $jsonFilePath = $this->options['cache']['path'];
+        } else {
+            throw new Exception('Cache path or type  not set in options, example:
+                $options = [
+                    "cache" => [
+                        "type" => "file_storage",
+                        "path" => __DIR__ . "/rivio-cache"
+                    ],
+            ];');
+        }
+
+        if ($this->options['cache']['type'] !== "file_storage") {
+            throw new Exception('Only file storage type caching is supported for now.');
+        }
+
+        if (!file_exists($jsonFilePath)) {
+            throw new Exception('Cache json for product with id ' . $productId . ' not found at ' . $jsonFilePath);
+        }
+
+        $jsonFile = fopen($jsonFilePath . '/' . $productId . '.json', "r");
+        $shopItem = fread($jsonFile, filesize($jsonFilePath . '/' . $productId . '.json'));
+        fclose($jsonFile);
+        $shopItem = json_decode($shopItem, 1);
 
         $reviews = $shopItem['reviews'];
 
