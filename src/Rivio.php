@@ -15,7 +15,6 @@ class Rivio {
         $this->secret_key=$secret_key;
         $this->options=$options;
         $this->set_templates();
-        $this->initCache();
     }
 
     public function register_postpurchase_email(
@@ -369,8 +368,16 @@ class Rivio {
         return $products;
     }
 
-    public function execute_cron($date) {
-        $this->get_json_cache($date);
+    public function execute_cron() {
+
+        $cacheAvailable = $this->initCache();
+
+        if ($cacheAvailable) {
+            // Products, getting review(s) in the last 24 hours
+            $date = date("Y-m-d_H:i:s", strtotime('-1 day'));
+
+            $this->get_json_cache($date);
+        }
     }
 
     public function initCache() {
@@ -397,13 +404,13 @@ class Rivio {
                     $cacheAvailable = true;
                 }
             }
-        } else {
-            mkdir($cachePath, 0777, true);
-        };
+        }
 
         if (!$cacheAvailable) {
             $this->get_json_cache();
         }
+
+        return $cacheAvailable;
 
     }
 
