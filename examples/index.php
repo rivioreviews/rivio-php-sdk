@@ -32,7 +32,7 @@
     </p>
 
     <h2>
-        <a href="get_embed_widget_witch_html_reviews.php">Get Embed Widget with HTML reviews</a>
+        <a href="get_embed_widget_with_html_reviews.php">Get Embed Widget with HTML reviews</a>
     </h2>
     <p>
         Insert Rivio reviews for a product with the embed widget, and the HTML reviews. Useful to make your reviews visible for search engines for example.
