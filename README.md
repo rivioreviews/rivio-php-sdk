@@ -9,11 +9,11 @@ PHP version >= 5.2.0 is required.
 
 ## Install and configure
 
-###Get started with our PHP SDK by hitting the download link below.
+### Get started with our PHP SDK by hitting the download link below.
 
 [Download](https://github.com/rivioreviews/rivio-php-sdk/archive/master.zip)
 
-###Or use composer
+### Or use composer
 
 [Composer](http://getcomposer.org/doc/01-basic-usage.md) is a package manager for PHP. In the `composer.json` file in your project add:
 
@@ -57,7 +57,7 @@ $rivio_embed_html=$rivio->get_embed_html(
     "Samsung",//$product_brand
     "499"//$product_price
 );
-$rivio_init_is=$rivio->get_init_js();
+
 ?>
 <html>
     <head>
@@ -73,7 +73,7 @@ $rivio_init_is=$rivio->get_init_js();
 
 ### Register Post-purchase Email
 
-After a purchase in your store, this code will send a "Postpurchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
+After a purchase in your store, this code will send a "Post purchase email" to the buyer to write a review about it.<br>You can also configure this email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here</a></b>.
 
 ```php
 <?php
@@ -83,7 +83,7 @@ require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 //Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio('api_key','secret_key');
 
-$result = $rivio->register_postpurchase_email(
+$result = $rivio->register_post_purchase_email(
     "1492411013331",//$order_id
     "2015-09-28T09:16:16-04:00",//$ordered_date
     "user@example.com",//$customer_email
@@ -115,50 +115,4 @@ $result = $rivio->register_postpurchase_email(
 </html>
 ```
 
-### Get Stars Widget
-
-Use the Stars Widget to show an average rating of the product with the number of ratings. Include the product id in your embeded code snippet, and you're all set.
-
-```php
-<?php
-
-require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
-
-//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
-$rivio = new Rivio('api_key','secret_key');
-
-//Get the RIVIO script
-$rivio_init_script=$rivio->get_init_js();
-
-?>
-
-<html>
-    <head>
-        <title>Product rating module - Rivio PHP SDK example</title>
-    </head>
-    <body>
-        <h1>
-            Product rating stars example
-        </h1>
-        <div>
-            <h2>
-                Smartphone6
-            </h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
-            </p>
-            <?php echo $rivio->product_stars('3409787460');?> <!-- Get product rating stars with the id of the product-->
-        </div>
-        <div>
-            <h2>
-                Smarphone6s
-            </h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
-            </p>
-            <?php echo $rivio->product_stars('3409788036');?> <!-- Get product rating stars with the id of the product-->
-        </div>
-        <?php echo $rivio_init_script;?>
-    </body>
-</html>
-```
+### For more examples upload the project to your storage and take a look at the examples/index.php.

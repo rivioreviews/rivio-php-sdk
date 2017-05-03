@@ -1,18 +1,6 @@
 <?php
-require __DIR__ . '/../src/Rivio.php';
 
-//create config.php file from config.sample.php and set your rivio keys
-if(file_exists(__DIR__."/config.php")){
-    require_once(__DIR__."/config.php");
-    $rivio_api_key=RIVIO_API_KEY;
-    $rivio_secret_key=RIVIO_SECRET_KEY;
-}else{
-    $rivio_api_key='your_rivio_api_key';
-    $rivio_secret_key='your_rivio_secret_key';
-}
-
-//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
-$rivio = new Rivio($rivio_api_key,$rivio_secret_key);
+require_once(__DIR__ . "/bootstrap.php");
 
 //Get the RIVIO script
 $rivio_init_script=$rivio->get_init_js();
@@ -35,7 +23,7 @@ $rivio_init_script=$rivio->get_init_js();
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
             </p>
-            <?php echo $rivio->get_stars_widget('3409787460');?> <!-- Get product rating stars with the id of the product-->
+            <?php echo $rivio->stars_widget('1492411012');?> <!-- Get product rating stars with the id of the product-->
         </div>
 
         <div>
@@ -45,7 +33,7 @@ $rivio_init_script=$rivio->get_init_js();
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut lectus purus. Praesent dapibus nisl vitae aliquam egestas. Sed id nibh ut nunc dapibus efficitur vitae et ligula.
             </p>
-            <?php echo $rivio->get_stars_widget('3409788036');?> <!-- Get product rating stars with the id of the product-->
+            <?php echo $rivio->stars_widget('3409788036');?> <!-- Get product rating stars with the id of the product-->
         </div>
 
         <?php echo $rivio_init_script;?>
