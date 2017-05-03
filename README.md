@@ -57,7 +57,7 @@ $rivio_embed_html=$rivio->get_embed_html(
     "Samsung",//$product_brand
     "499"//$product_price
 );
-$rivio_init_is=$rivio->get_init_js();
+
 ?>
 <html>
     <head>
