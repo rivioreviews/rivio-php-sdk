@@ -274,9 +274,9 @@ class Rivio {
         $i = 0;
         while ($i < 5) {
             if ($i < $reviewsJson['review_average']) {
-                $starsTemplate .= '<span class="rivio-reviews-star full" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9733;</span>';
+                $starsTemplate .= '<span class="rivio-reviews-star" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9733;</span>';
             } else {
-                $starsTemplate .= '<span class="rivio-reviews-star empty" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9734;</span>';
+                $starsTemplate .= '<span class="rivio-reviews-star" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9734;</span>';
             }
             $i++;
         }

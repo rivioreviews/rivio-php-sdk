@@ -76,5 +76,12 @@
         An example how to create a cron job, which updates the cache of reviews for products, getting review(s) for the last 24 hours.
     </p>
 
+    <h2>
+        <a href="google_rich_snippet.php">Google rich snippet</a>
+    </h2>
+    <p>
+        An example how to insert Google rich snippet to your product page.
+    </p>
+
 </body>
 </html>
