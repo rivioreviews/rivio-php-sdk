@@ -262,14 +262,15 @@ class Rivio {
         return false;
     }
 
-    public function stars_html($product_id) {
-        $productRating = $this->product_rating($product_id);
+    public function stars_html($productId) {
+        $reviewsJson =  $this->product_reviews_json($productId);
+
 
         $starsTemplate = "<div class='rivio-reviews-stars'>";
 
         $i = 0;
         while ($i < 5) {
-            if ($i < $productRating['avg']) {
+            if ($i < $reviewsJson['review_average']) {
                 $starsTemplate .= '<span class="rivio-reviews-star full" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9733;</span>';
             } else {
                 $starsTemplate .= '<span class="rivio-reviews-star empty" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9734;</span>';
@@ -277,7 +278,7 @@ class Rivio {
             $i++;
         }
 
-        $starsTemplate .= "<span>".$productRating['count']."</span> reviews";
+        $starsTemplate .= "<span>".$reviewsJson['review_count']."</span> reviews";
         $starsTemplate .= "</div>";
 
         return $starsTemplate;
@@ -294,20 +295,7 @@ class Rivio {
 
     }
 
-    public function get_reviews_json($productId) {
-
-        $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key."&product_id=".$productId;
-        $result = Rivio::fetchUrl($url);
-        $json_result = json_decode($result,true);
-
-        if ($json_result === null) {
-            throw new Exception('Server responded with invalid json format');
-        }
-
-        return $json_result;
-    }
-
-    public function product_reviews_html($productId) {
+    public function product_reviews_json($productId) {
 
         if (!isset($this->options)) {
             throw new Exception('Options array cache is not set. Example array:
@@ -336,16 +324,24 @@ class Rivio {
             throw new Exception('Only file storage type caching is supported for now.');
         }
 
-        if (!file_exists($jsonFilePath)) {
-            throw new Exception('Cache json for product with id ' . $productId . ' not found at ' . $jsonFilePath);
+        $jsonFilePath = $jsonFilePath . '/' . $productId . '.json';
+
+        $reviewsJson = '{"product_id":"'.$productId.'","review_count":"0","review_average":"0","reviews":[]}';
+
+        if (file_exists($jsonFilePath)) {
+            $jsonFile = fopen($jsonFilePath, "r");
+            $reviewsJson = fread($jsonFile, filesize($jsonFilePath));
+            fclose($jsonFile);
         }
 
-        $jsonFile = fopen($jsonFilePath . '/' . $productId . '.json', "r");
-        $shopItem = fread($jsonFile, filesize($jsonFilePath . '/' . $productId . '.json'));
-        fclose($jsonFile);
-        $shopItem = json_decode($shopItem, 1);
+        return json_decode($reviewsJson, 1);
+    }
 
-        $reviews = $shopItem['reviews'];
+    public function product_reviews_html($productId) {
+
+        $reviewsJson = $this->product_reviews_json($productId);
+
+        $reviews = $reviewsJson['reviews'];
 
         $template = '';
 
@@ -384,7 +380,7 @@ class Rivio {
 
     }
 
-    public function get_json_cache($date = NULL) {
+    public function refresh_json_cache($date = NULL) {
 
         $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
 
@@ -436,7 +432,7 @@ class Rivio {
             // Products, getting review(s) in the last 24 hours
             $date = date("Y-m-d_H:i:s", strtotime('-1 day'));
 
-            $this->get_json_cache($date);
+            $this->refresh_json_cache($date);
         }
     }
 
@@ -467,7 +463,7 @@ class Rivio {
         }
 
         if (!$cacheAvailable) {
-            $this->get_json_cache();
+            $this->refresh_json_cache();
         }
 
         return $cacheAvailable;

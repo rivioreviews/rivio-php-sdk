@@ -53,13 +53,6 @@
         Get the product reviews in a JSON format.
     </p>
 
-    <h3>
-        <a href="product_rating.php">Product rating</a> (rendered with PHP)
-    </h3>
-    <p>
-        Show the average rating, and the number of reviews for a product.
-    </p>
-
     <h2>Hybrid (PHP & JavaScript) render samples</h2>
 
     <h3>

@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . "/bootstrap.php");
 
-$jsonCache = $rivio->get_json_cache();
-$jsonCache = json_encode($jsonCache);
+$rivio_reviews_json = $rivio->product_reviews_json('1492411012');
+$rivio_reviews_json = json_encode($rivio_reviews_json);
 
-echo $jsonCache;
+echo $rivio_reviews_json;
