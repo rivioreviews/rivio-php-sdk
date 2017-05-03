@@ -10,7 +10,7 @@ class Rivio {
     private $template_initjs_script_tag=NULL;
     private $template_product_stars=NULL;
 
-    function __construct($api_key = NULL,$secret_key = NULL,$options = NULL){
+    function __construct($api_key = NULL,$secret_key = NULL,$options = NULL) {
         self::$api_base_url= (defined('RIVIO_API_BASE_URL') ? RIVIO_API_BASE_URL : 'https://api.getrivio.com/api');
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
@@ -18,7 +18,7 @@ class Rivio {
         $this->set_templates();
     }
 
-    public function register_postpurchase_email(
+    public function register_post_purchase_email(
         $order_id,
         $ordered_date,
         $customer_email,
@@ -32,7 +32,7 @@ class Rivio {
         $product_category = NULL ,
         $product_brand = NULL,
         $product_price  = NULL
-    ){
+    ) {
         $order=array(
             "order_id"=> $order_id,
             "ordered_date"=>$ordered_date,
@@ -51,10 +51,11 @@ class Rivio {
 
         $orders=array($order);
 
-        return $this->register_postpurchase_emails($orders);
+        return $this->register_post_purchase_emails($orders);
     }
 
-    public function register_postpurchase_emails($orders){
+    public function register_post_purchase_emails($orders) {
+
         $postBody=array(
             "orders"=> $orders
         );
@@ -84,7 +85,7 @@ class Rivio {
 
             // Decode the response
             $responseData = json_decode($response, TRUE);
-        }else{
+        } else {
             // Create the context for the request
             $context = stream_context_create(array(
                 'http' => array(
@@ -127,7 +128,7 @@ class Rivio {
         $product_price  = "",
         $lang = "en",
         $reviews_html = ""
-    ){
+    ) {
         $template=$this->template_html_embed;
 
         $template = str_replace("{{api-key}}", $this->api_key ,$template);
@@ -146,14 +147,15 @@ class Rivio {
         return $template;
     }
 
-    public function get_init_js(){
+    public function get_init_js() {
+
         $scriptTag =  $this->template_initjs_script_tag;
         $scriptTag = str_replace("{{api-key}}", $this->api_key ,$scriptTag);
 
         return $scriptTag;
     }
 
-    private function set_templates(){
+    private function set_templates() {
 
         //EMBED HTML
         ob_start();
@@ -226,10 +228,9 @@ class Rivio {
         </div>
         <?php
         $this->template_html_reviews = ob_get_clean();
-
     }
 
-    public function stars_widget($product_id){
+    public function stars_widget($product_id) {
 
         // PRODUCT STARS
         ob_start();
@@ -246,6 +247,7 @@ class Rivio {
     }
 
     private function fetchUrl($url) {
+
         $allowUrlFopen = preg_match('/1|yes|on|true/i', ini_get('allow_url_fopen'));
 
         if ($allowUrlFopen) {
@@ -259,12 +261,13 @@ class Rivio {
                 return $contents;
             }
         }
+
         return false;
     }
 
     public function stars_html($productId) {
-        $reviewsJson =  $this->product_reviews_json($productId);
 
+        $reviewsJson =  $this->product_reviews_json($productId);
 
         $starsTemplate = "<div class='rivio-reviews-stars'>";
 
@@ -284,15 +287,16 @@ class Rivio {
         return $starsTemplate;
     }
 
-    public function product_rating($product_id){
+    public function product_rating($product_id) {
+
         $result = Rivio::fetchUrl(self::$api_base_url."/review/product-ratings?api_key=".$this->api_key."&product_ids=".$product_id);
         $json_result = json_decode($result,true);
+
         if($json_result === null){
             throw new Exception('Server responded with invalid json format');
         } else {
             return $json_result[0];
         }
-
     }
 
     public function product_reviews_json($productId) {
@@ -377,7 +381,6 @@ class Rivio {
         }
 
         return $template;
-
     }
 
     public function refresh_json_cache($date = NULL) {
@@ -467,7 +470,6 @@ class Rivio {
         }
 
         return $cacheAvailable;
-
     }
 
 }

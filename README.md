@@ -83,7 +83,7 @@ require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 //Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
 $rivio = new Rivio('api_key','secret_key');
 
-$result = $rivio->register_postpurchase_email(
+$result = $rivio->register_post_purchase_email(
     "1492411013331",//$order_id
     "2015-09-28T09:16:16-04:00",//$ordered_date
     "user@example.com",//$customer_email

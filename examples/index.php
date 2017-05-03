@@ -63,7 +63,7 @@
     </p>
 
     <h2>
-        <a href="register_postpurchase.php">Register Post-purchase Email</a>
+        <a href="register_post_purchase.php">Register Post-purchase Email</a>
     </h2>
     <p>
         After a purchase in your store, this code will send a "Post purchase email" to the buyer to write a review about it.<br>You can also configure the email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
