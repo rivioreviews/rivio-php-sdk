@@ -2,8 +2,8 @@
 
 require_once(__DIR__ . "/bootstrap.php");
 
-$rating_1 = $rivio->get_rating('3409787460');
-$rating_2 = $rivio->get_rating('3409787460');
+$rating_1 = $rivio->product_rating('1492411012');
+$rating_2 = $rivio->product_rating('3409787460');
 
 ?>
 

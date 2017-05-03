@@ -5,7 +5,7 @@ require_once(__DIR__ . "/bootstrap.php");
 //Get the RIVIO script
 $rivio_init_script=$rivio->get_init_js();
 
-$rivio_embed_html=$rivio->get_embed_widget(
+$rivio_embed_html=$rivio->product_reviews_widget(
     "1492411012",//$product_id
     "Samsung Galaxy S6",//$product_name
     "https://example.com/products/galaxy-s6",//$product_url

@@ -6,6 +6,7 @@ class Rivio {
     private $api_key=NULL;
     private $secret_key=NULL;
     private $template_html_embed=NULL;
+    private $template_html_reviews=NULL;
     private $template_initjs_script_tag=NULL;
     private $template_product_stars=NULL;
 
@@ -114,7 +115,7 @@ class Rivio {
     }
 
 
-    public function get_embed_widget(
+    public function product_reviews_widget(
         $product_id,
         $product_name,
         $product_url = "",
@@ -125,11 +126,8 @@ class Rivio {
         $product_brand = "",
         $product_price  = "",
         $lang = "en",
-        $server_side_rendering = false
+        $reviews_html = ""
     ){
-
-        $server_side_html = $server_side_rendering ? $this->get_reviews_html($product_id) : '';
-
         $template=$this->template_html_embed;
 
         $template = str_replace("{{api-key}}", $this->api_key ,$template);
@@ -143,7 +141,7 @@ class Rivio {
         $template = str_replace("{{product-category}}", $product_category ,$template);
         $template = str_replace("{{product-brand}}", $product_brand ,$template);
         $template = str_replace("{{product-price}}", $product_price ,$template);
-        $template = str_replace("{{server-side-html}}", $server_side_html ,$template);
+        $template = str_replace("{{reviews-html}}", $reviews_html ,$template);
 
         return $template;
     }
@@ -156,7 +154,6 @@ class Rivio {
     }
 
     private function set_templates(){
-
 
         //EMBED HTML
         ob_start();
@@ -173,11 +170,10 @@ class Rivio {
              data-rivio-type="{{product-category}}"
              data-rivio-brand="{{product-brand}}"
              data-rivio-price="{{product-price}}">
-            {{server-side-html}}
+            {{reviews-html}}
         </div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
         <?php
         $this->template_html_embed = ob_get_clean();
-
 
         //INITJS SCRIPT TAG
         ob_start();
@@ -186,9 +182,54 @@ class Rivio {
         <?php
         $this->template_initjs_script_tag = ob_get_clean();
 
+        //EMBED HTML
+        ob_start();
+        ?>
+        <div class="rivio-reviews">
+            <hr>
+            <div class="rivio-reviews-review">
+                <div class="rivio-reviews-review-left">
+                    <div class="rivio-reviews-review-avatar">
+                        <p>
+                            {{user-capital}}
+                        </p>
+                    </div>
+                </div>
+                <div class="rivio-reviews-review-body">
+                    <div class="rivio-reviews-review-body-date">
+                        <p>
+                            {{review-date}}
+                        </p>
+                    </div>
+                    <div class="rivio-reviews-review-body-username">
+                        <p>
+                            {{user-name}}
+                        </p>
+                    </div>
+                    <div class="rivio-reviews-review-body-rating">
+                        <p>
+                            {{rating-stars}}
+                        </p>
+                    </div>
+                    <div class="rivio-reviews-review-body-title">
+                        <p>
+                            {{title}}
+                        </p>
+                    </div>
+                    <div class="rivio-reviews-review-body-body">
+                        <p>
+                            {{body}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        $this->template_html_reviews = ob_get_clean();
+
     }
 
-    public function get_stars_widget($product_id){
+    public function stars_widget($product_id){
 
         // PRODUCT STARS
         ob_start();
@@ -206,6 +247,7 @@ class Rivio {
 
     private function fetchUrl($url) {
         $allowUrlFopen = preg_match('/1|yes|on|true/i', ini_get('allow_url_fopen'));
+
         if ($allowUrlFopen) {
             return file_get_contents($url);
         } elseif (function_exists('curl_init')) {
@@ -220,7 +262,28 @@ class Rivio {
         return false;
     }
 
-    public function get_rating($product_id){
+    public function stars_html($product_id) {
+        $productRating = $this->product_rating($product_id);
+
+        $starsTemplate = "<div class='rivio-reviews-stars'>";
+
+        $i = 0;
+        while ($i < 5) {
+            if ($i < $productRating['avg']) {
+                $starsTemplate .= '<span class="rivio-reviews-star full" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9733;</span>';
+            } else {
+                $starsTemplate .= '<span class="rivio-reviews-star empty" style="color: #ffd200; text-shadow: 0 1px 0 #cb9500; font-size: 20px;">&#9734;</span>';
+            }
+            $i++;
+        }
+
+        $starsTemplate .= "<span>".$productRating['count']."</span> reviews";
+        $starsTemplate .= "</div>";
+
+        return $starsTemplate;
+    }
+
+    public function product_rating($product_id){
         $result = Rivio::fetchUrl(self::$api_base_url."/review/product-ratings?api_key=".$this->api_key."&product_ids=".$product_id);
         $json_result = json_decode($result,true);
         if($json_result === null){
@@ -244,7 +307,7 @@ class Rivio {
         return $json_result;
     }
 
-    public function get_reviews_html($productId) {
+    public function product_reviews_html($productId) {
 
         if (!isset($this->options)) {
             throw new Exception('Options array cache is not set. Example array:
@@ -286,10 +349,7 @@ class Rivio {
 
         $template = '';
 
-        $htmlPath = __DIR__ . "/templates/review.html";
-        $htmlFile = fopen($htmlPath, "r");
-        $html = fread($htmlFile, filesize($htmlPath));
-        fclose($htmlFile);
+        $html = $this->template_html_reviews;
 
         foreach ($reviews as $review) {
 

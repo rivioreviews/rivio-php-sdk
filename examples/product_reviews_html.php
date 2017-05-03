@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . "/bootstrap.php");
 
-$rivio_reviews_html = $rivio->get_reviews_html('1492411012');
+$rivio_reviews_html = $rivio->product_reviews_html('1492411012');
 
 ?>
 <html>
