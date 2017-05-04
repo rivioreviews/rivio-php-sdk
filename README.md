@@ -31,9 +31,9 @@ And then run:
 
 ## Quick Start Examples
 
-For testing, you will need your <b>Rivio API key</b>  and your <b>secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.
+For testing, you will need your <b>Rivio API key</b>  and your <b>Secret key</b>. You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.
 
-### Get Embed Widget
+### Product Reviews Widget
 
 ```php
 <?php
@@ -46,16 +46,17 @@ $rivio = new Rivio('api_key','secret_key');
 //Get the RIVIO script
 $rivio_init_script=$rivio->get_init_js();
 
-$rivio_embed_html=$rivio->get_embed_html(
-    "1492411012",//$product_id
-    "Samsung Galaxy S6",//$product_name
-    "https://example.com/products/galaxy-s6",//$product_url
-    "https://images.example.com/big/200",//$product_image_url
-    "This is the product description",//$product_description
-    "1234567890123",//$product_barcode
-    "Mobile phone",//$product_category
-    "Samsung",//$product_brand
-    "499"//$product_price
+$rivio_embed_html=$rivio->product_reviews_widget(
+    "1492411012", //$product_id REQUIRED
+    "Samsung Galaxy S6", //$product_name REQUIRED
+    "https://example.com/products/galaxy-s6", //$product_url OPTIONAL
+    "https://images.example.com/big/200", //$product_image_url OPTIONAL
+    "This is the product description", //$product_description OPTIONAL
+    "1234567890123", //$product_barcode OPTIONAL
+    "Mobile phone", //$product_category OPTIONAL
+    "Samsung", //$product_brand OPTIONAL
+    "499", //$product_price OPTIONAL
+    $reviews_html //$reviews_html OPTIONAL (from product_reviews_html)
 );
 
 ?>
@@ -84,19 +85,19 @@ require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
 $rivio = new Rivio('api_key','secret_key');
 
 $result = $rivio->register_post_purchase_email(
-    "1492411013331",//$order_id
-    "2015-09-28T09:16:16-04:00",//$ordered_date
-    "user@example.com",//$customer_email
-    "John",//$customer_first_name
-    "1492411012",//$product_id
-    "Samsung Galaxy S6",//$product_name
-    "https://example.com/products/galaxy-s6",//$product_url
-    "https://images.example.com/big/200",//$product_image_url
-    "This is the product description",//$product_description
-    "1234567890123",//$product_barcode
-    "Mobile phone",//$product_category
-    "Samsung",//$product_brand
-    "499"//$product_price
+    "1492411013331", //$order_id REQUIRED
+    "2015-09-28T09:16:16-04:00", //$ordered_date REQUIRED
+    "user@example.com", //$customer_email REQUIRED
+    "John", //$customer_first_name REQUIRED
+    "1492411012", //$product_id REQUIRED
+    "Samsung Galaxy S6", //$product_name REQUIRED
+    "https://example.com/products/galaxy-s6", //$product_url OPTIONAL
+    "https://images.example.com/big/200", //$product_image_url OPTIONAL
+    "This is the product description", //$product_description OPTIONAL
+    "1234567890123", //$product_barcode OPTIONAL
+    "Mobile phone", //$product_category OPTIONAL
+    "Samsung", //$product_brand OPTIONAL
+    "499" //$product_price OPTIONAL
 );
 
 ?>
