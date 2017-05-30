@@ -116,4 +116,65 @@ $result = $rivio->register_post_purchase_email(
 </html>
 ```
 
+You can add multiple products, using the example below. This way, Rivio will choose the most expensive product from the order. If price is not available for the products, it will choose the first product. After that Rivio is going to send the PostPurchase email about that product.
+
+```php
+<?php
+
+require_once 'PATH_TO_RIVIO_PHP_SDK/src/Rivio.php';
+
+//Copy credentials from Rivio Dashboard (http://dashboard.getrivio.com/dashboard/settings/business)
+$rivio = new Rivio('api_key','secret_key');
+
+$products = array();
+
+// The first product
+array_push($products, array(
+   "id" => "1492411013331", //$product_id REQUIRED
+   "name" => "Samsung Galaxy S6", //$product_name REQUIRED
+   "url" => "https://example.com/products/galaxy-s6", //$product_url OPTIONAL
+   "image_url" => "https://images.example.com/big/200", //$product_image_url OPTIONAL
+   "description" => "This is the product description", //$product_description OPTIONAL
+   "barcode" => "1234567890123", //$product_barcode OPTIONAL
+   "brand" => "Samsung", //$product_brand OPTIONAL,
+   "price" => "499", //$product_price OPTIONAL
+));
+
+// The second product
+array_push($products, array(
+   "id" => "2811046815449", //$product_id REQUIRED
+   "name" => "Google Pixel", //$product_name REQUIRED
+   "url" => "https://example.com/products/pixel", //$product_url OPTIONAL
+   "image_url" => "https://images.example.com/big/300", //$product_image_url OPTIONAL
+   "description" => "This is the product description", //$product_description OPTIONAL
+   "barcode" => "9876543210987", //$product_barcode OPTIONAL
+   "brand" => "Google", //$product_brand OPTIONAL,
+   "price" => "799", //$product_price OPTIONAL
+));
+
+$result = $rivio->register_post_purchase_email_multiple_product(
+    "1492411013331", //$order_id REQUIRED
+    "2015-09-28T09:16:16-04:00", //$ordered_date REQUIRED
+    "user@example.com", //$customer_email REQUIRED
+    "John", //$customer_first_name REQUIRED
+    $products
+);
+
+?>
+<html>
+    <head>
+        <title>Register Postpurchase Email with muliple products - Rivio PHP SDK example</title>
+    </head>
+    <body>
+        <h1>Rivio Register Postpurchase Email with muliple products</h1>
+        <p>result:</p>
+        <pre><?php print_r($result);?></pre>
+        Check your postpurchase email queue on 
+        <a href="http://dashboard.getrivio.com/dashboard/email/summary" target="_blank">Rivio Dashboard</a>.
+        If the "Email status" is "Pending" then the test was successful.
+    </body>
+</html>
+```
+
+
 ### For more examples upload the project to your storage and take a look at the examples/index.php.
