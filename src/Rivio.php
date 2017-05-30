@@ -54,6 +54,26 @@ class Rivio {
         return $this->register_post_purchase_emails($orders);
     }
 
+    public function register_post_purchase_email_multiple_product(
+        $order_id,
+        $ordered_date,
+        $customer_email,
+        $customer_first_name,
+        $products
+    ) {
+        $order = array(
+            "order_id"=> $order_id,
+            "ordered_date"=>$ordered_date,
+            "customer_email"=>$customer_email,
+            "customer_first_name"=>$customer_first_name,
+            "products"=>$products
+        );
+
+        $orders = array($order);
+
+        return $this->register_post_purchase_emails($orders);
+    }
+
     public function register_post_purchase_emails($orders) {
 
         $postBody=array(

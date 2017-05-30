@@ -70,6 +70,15 @@
     </p>
 
     <h2>
+        <a href="register_post_purchase_multiple_product.php">Register Post-purchase Email with multiple products</a>
+    </h2>
+    <p>
+        After a purchase in your store, this code will send a "Post purchase email" to the buyer to write a review about it.
+        <br>This way, Rivio will choose the most expensive product from the order. If price is not available for the products, it will choose the first product. After that Rivio is going to send the PostPurchase email about that product.
+        <br>You can also configure the email sending <b><a href="https://dashboard.reev.io/dashboard/email/settings" target="_blank">here<a/></b>.
+    </p>
+
+    <h2>
         <a href="cache_cron_job.php">Server side review caching</a>
     </h2>
     <p>
