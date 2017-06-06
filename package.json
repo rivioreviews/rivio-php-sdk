@@ -1,7 +1,7 @@
 {
   "name": "rivio-php-sdk",
   "description": "Rivio PHP SDK",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "devDependencies": {
     "grunt":"",
     "grunt-bump": "MikeSpock/grunt-bump#master"
