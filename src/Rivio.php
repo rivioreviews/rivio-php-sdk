@@ -285,7 +285,11 @@ class Rivio {
         return false;
     }
 
-    public function stars_html($productId) {
+    public function stars_html($productId, $reviews_translate = NULL) {
+
+        if (!$reviews_translate) {
+            $reviews_translate = 'reviews';
+        }
 
         $reviewsJson =  $this->product_reviews_json($productId);
 
@@ -301,7 +305,7 @@ class Rivio {
             $i++;
         }
 
-        $starsTemplate .= "<span>".$reviewsJson['review_count']."</span> reviews";
+        $starsTemplate .= "<span>".$reviewsJson['review_count']."</span> " . $reviews_translate;
         $starsTemplate .= "</div>";
 
         return $starsTemplate;
