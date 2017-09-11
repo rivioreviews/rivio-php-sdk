@@ -21,10 +21,10 @@ $rivio_embed_html=$rivio->product_reviews_widget(
 <html>
     <head>
         <title>Embed module - Rivio PHP SDK example</title>
+        <?php echo $rivio_init_script;?>
     </head>
     <body>
         <h1>Rivio Embed Module</h1>
         <?php echo $rivio_embed_html;?>
-        <?php echo $rivio_init_script;?>
     </body>
 </html>

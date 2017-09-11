@@ -10,6 +10,8 @@ $rivio_init_script=$rivio->get_init_js();
 <html>
     <head>
         <title>Product rating module - Rivio PHP SDK example</title>
+
+        <?php echo $rivio_init_script;?>
     </head>
     <body>
         <h1>
@@ -35,7 +37,5 @@ $rivio_init_script=$rivio->get_init_js();
             </p>
             <?php echo $rivio->stars_widget('3409788036');?> <!-- Get product rating stars with the id of the product-->
         </div>
-
-        <?php echo $rivio_init_script;?>
     </body>
 </html>
