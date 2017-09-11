@@ -7,7 +7,6 @@ npm-debug.log
 /bower_components/
 /.vagrant/
 /vendor/
-examples/config.php
 Vagrant.bootstrap.sh
 Vagrantfile
 vagrant

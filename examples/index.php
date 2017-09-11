@@ -7,7 +7,7 @@
         Rivio PHP SDK Examples
     </h1>
     <p>
-        For testing, you will need to copy the <b>config.sample.php</b> file in the example folder, as <b>config.php</b> and insert your <b>Rivio API key</b> and <b>Secret key</b>.
+        For testing, you will need to modify <b>boostrap.php</b> and insert your <b>Rivio API key</b> and <b>Secret key</b>.
         You can get them, from <b><a href="http://dashboard.getrivio.com/dashboard/settings/business" target="_blank">here</a></b>.
     </p>
 
