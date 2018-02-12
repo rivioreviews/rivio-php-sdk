@@ -1,5 +1,13 @@
+@-webkit-keyframes dropDown {
+    to {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        transform: scale(1);
+    }
+}
 
-.rivio-reviews-reviews {
+.rivio-reviews {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
@@ -77,4 +85,125 @@
 
 .rivio-reviews-review-body-title {
     font-weight: bold;
+}
+
+.rivio-rating {
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.rivio-rating-tabs {
+    color: #333333;
+    border-bottom: solid 1px #dddddd;
+}
+
+.rivio-rating-tabs svg {
+    width: 14px;
+    margin-right: 4px;
+}
+
+.rivio-rating-tabs > div {
+    display: inline-block;
+    padding: 10px 15px;
+    color: #337ab7;
+    margin-bottom: -1px;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid transparent;
+    margin-right: 2px;
+}
+
+.rivio-rating-tabs > div:hover {
+    background: #eeeeee;
+    border: 1px solid #eeeeee;
+    color: #23527c;
+}
+
+.rivio-rating-tabs .active {
+    border: 1px solid #dddddd !important;
+    background-color: #ffffff !important;
+    border-bottom-color: transparent !important;
+    cursor: default;
+    color: #555555 !important;
+
+}
+
+.rivio-rating-tabs .active, .rivio-rating-tabs:hover {
+    color: #555555;
+}
+
+.rivio-rating-controls {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    position: relative;
+}
+
+.rivio-rating-controls div {
+    display: inline-block;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star {
+    width: 23px;
+    color: #ffd200;
+    cursor: pointer;
+    position: relative;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star .rivio-star-full {
+    display: none;
+    color: #0c94b6;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star .rivio-star-full:hover {
+    transform: scale(3);
+    -moz-transform: scale(3);
+    -webkit-transform: scale(3);
+    -webkit-animation: dropDown 0.3s forwards;
+    -moz-animation: dropDown 0.3s forwards;
+    animation: dropDown 0.3s forwards;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+}
+
+.rivio-rating-controls-stars:hover .rivio-rating-controls-stars-star .rivio-star-full {
+    display: inline-block !important;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star:hover ~ .rivio-rating-controls-stars-star .rivio-star-full {
+    display: none !important;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star:hover ~ .rivio-rating-controls-stars-star .rivio-star-empty {
+    display: inline-block !important;
+}
+
+.rivio-rating-controls-title {
+    vertical-align: top;
+    margin-left: 4px;
+}
+
+.rivio-rating-controls-title a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.rivio-rating-controls-title a:hover, .rivio-rating-controls-title a:focus {
+    text-decoration: underline;
+    color: #23527c;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star.full .rivio-star-full {
+    display: inline-block !important;
+    position: relative !important;
+    width: 23px;
+    height: auto;
+}
+
+.rivio-rating-controls-stars .rivio-rating-controls-stars-star.full .rivio-star-empty {
+    display: none;
 }
