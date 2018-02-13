@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/bootstrap.php");
 
 // Get the RIVIO script
-$rivio_init_script = $rivio->get_init_js();
+$rivio_init_script = $rivio->get_embed_js_on_click_js();
 
 // Reviews in HTML format
 $reviews_html = $rivio->product_reviews_html_and_rating_header("1492411012");
@@ -27,7 +27,7 @@ $rivio_embed_html = $rivio->product_reviews_widget(
 <head>
     <title>Embed module - Rivio PHP SDK example</title>
     <link rel="stylesheet" href="assets/review.css">
-    <?php /*echo $rivio_init_script; */?>
+    <?php echo $rivio_init_script; ?>
 </head>
 <body>
 <h1>Rivio Embed Module</h1>
