@@ -12,6 +12,13 @@
     font-size: 14px;
 }
 
+.rivio-reviews > hr {
+    border: 0;
+    border-top: 1px solid #dadada;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .rivio-reviews-star {
     color: #ffd200;
     text-shadow: 0 1px 0 #cb9500;
@@ -90,6 +97,7 @@
 .rivio-rating {
     font-size: 14px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-top: 14px;
 }
 
 .rivio-rating-tabs {
@@ -104,7 +112,7 @@
 
 .rivio-rating-tabs > div {
     display: inline-block;
-    padding: 10px 15px;
+    padding: 12px 15px;
     color: #337ab7;
     margin-bottom: -1px;
     cursor: pointer;
@@ -151,7 +159,7 @@
 
 .rivio-rating-controls-stars .rivio-rating-controls-stars-star .rivio-star-full {
     display: none;
-    color: #0c94b6;
+    color: #ffd200;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -168,6 +176,7 @@
     opacity: 0;
     position: absolute;
     top: 0;
+    color: #0c94b6;
 }
 
 .rivio-rating-controls-stars:hover .rivio-rating-controls-stars-star .rivio-star-full {
@@ -182,17 +191,28 @@
     display: inline-block !important;
 }
 
-.rivio-rating-controls-title {
-    vertical-align: top;
-    margin-left: 4px;
+.rivio-rating-controls-stars:hover .rivio-rating-controls-stars-star .rivio-star-full {
+    color: #0c94b6;
 }
 
-.rivio-rating-controls-title a {
+.rivio-rating-controls-title, .rivio-rating-title {
+    color: #777777;
+    vertical-align: top;
+    margin-left: 4px;
+    line-height: 20px;
+}
+
+.rivio-rating-title {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.rivio-rating-title a {
     color: #337ab7;
     text-decoration: none;
 }
 
-.rivio-rating-controls-title a:hover, .rivio-rating-controls-title a:focus {
+.rivio-rating-title a:hover, .rivio-rating-title a:focus {
     text-decoration: underline;
     color: #23527c;
 }
