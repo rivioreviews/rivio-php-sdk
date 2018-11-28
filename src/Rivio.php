@@ -197,11 +197,9 @@ class Rivio {
         <?php
         $this->template_html_embed = ob_get_clean();
 
-        if (!$options['hide_rivio_footer']) {
+        if (array_key_exists('hide_rivio_footer', $options) && $options['hide_rivio_footer']) {
             $this->template_html_embed .= "<div style=\"text-align:right\"><a href=\"http://getrivio.com\" style=\"opacity:0.8;font-size:11px;\">Product reviews by Rivio</a></div>";
         }
-        ?>
-        <?php
         //INITJS SCRIPT TAG
         ob_start();
         ?>
