@@ -15,7 +15,7 @@ class Rivio {
         $this->api_key=$api_key;
         $this->secret_key=$secret_key;
         $this->options=$options;
-        $this->set_templates();
+        $this->set_templates($options);
     }
 
     public function register_post_purchase_email(
@@ -175,7 +175,7 @@ class Rivio {
         return $scriptTag;
     }
 
-    private function set_templates() {
+    private function set_templates($options) {
 
         //EMBED HTML
         ob_start();
@@ -193,10 +193,13 @@ class Rivio {
              data-rivio-brand="{{product-brand}}"
              data-rivio-price="{{product-price}}">
             {{reviews-html}}
-        </div><div style="text-align:right"><a href="http://getrivio.com" style="opacity:0.8;font-size:11px;">Product reviews by Rivio</a></div>
+        </div>
         <?php
         $this->template_html_embed = ob_get_clean();
 
+        if (array_key_exists('hide_rivio_footer', $options) && $options['hide_rivio_footer']) {
+            $this->template_html_embed .= "<div style=\"text-align:right\"><a href=\"http://getrivio.com\" style=\"opacity:0.8;font-size:11px;\">Product reviews by Rivio</a></div>";
+        }
         //INITJS SCRIPT TAG
         ob_start();
         ?>
@@ -285,13 +288,17 @@ class Rivio {
         return false;
     }
 
-    public function stars_html($productId, $reviews_translate = NULL) {
+    public function stars_html($productId, $reviews_translate = NULL, $withReviewsOnly = false) {
 
         if (!$reviews_translate) {
             $reviews_translate = 'reviews';
         }
 
         $reviewsJson =  $this->product_reviews_json($productId);
+
+        if ($withReviewsOnly && $reviewsJson['review_count'] * 1 === 0) {
+            return false;
+        }
 
         $starsTemplate = "<div class='rivio-reviews-stars'>";
 
