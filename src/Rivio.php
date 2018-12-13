@@ -376,6 +376,10 @@ class Rivio {
 
         $reviewsJson = $this->product_reviews_json($productId);
 
+        if (count($reviewsJson['reviews']) === 0) {
+            return false;
+        }
+
         $reviews = $reviewsJson['reviews'];
 
         $template = '';
