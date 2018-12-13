@@ -418,11 +418,18 @@ class Rivio {
         return $template;
     }
 
-    public function refresh_json_cache($date = NULL) {
+    public function refresh_json_cache($date = NULL, $cacheSettings) {
+
+        date_default_timezone_set('UTC');
 
         $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
 
-        if (!is_null($date)) {
+        $lastFullRefreshDate = $cacheSettings['last_full_refresh'];
+        $yesterday = date("Y-m-d_H:i:s", strtotime('-1 day'));
+
+        $fullRefreshRequired = $lastFullRefreshDate < $yesterday;
+
+        if (!is_null($date) && !$fullRefreshRequired) {
             $url .= "&last_updated_at_is_gt=".$date;
         }
 
@@ -466,11 +473,13 @@ class Rivio {
 
         $cacheAvailable = $this->initCache();
 
+        $cacheSettings = $this->getCacheSettings();
+
         if ($cacheAvailable) {
             // Products, getting review(s) in the last 24 hours
             $date = date("Y-m-d_H:i:s", strtotime('-1 day'));
 
-            $this->refresh_json_cache($date);
+            $this->refresh_json_cache($date, $cacheSettings);
         }
     }
 
@@ -505,6 +514,28 @@ class Rivio {
         }
 
         return $cacheAvailable;
+    }
+
+    public function getCacheSettings() {
+        $jsonFilePath = $this->options['cache']['path'];
+        $jsonFilePath = $jsonFilePath . '/rivio-cache-settings.json';
+
+        date_default_timezone_set('UTC');
+
+        if (file_exists($jsonFilePath)) {
+            $jsonFile = fopen($jsonFilePath, 'r');
+            $cacheSettings = fread($jsonFile, filesize($jsonFilePath));
+            $cacheSettings = json_decode($cacheSettings, true);
+            fclose($jsonFile);
+        } else {
+            $cacheSettingsJsonFile = fopen($jsonFilePath, 'w+');
+            $date = date("Y-m-d_H:i:s");
+            $cacheSettings = json_encode(array("last_full_refresh" => $date));
+            fwrite($cacheSettingsJsonFile, $cacheSettings);
+            fclose($cacheSettingsJsonFile);
+        }
+
+        return $cacheSettings;
     }
 
 }
