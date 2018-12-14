@@ -373,6 +373,7 @@ class Rivio {
     }
 
     public function product_reviews_html($productId) {
+        date_default_timezone_set('UTC');
 
         $reviewsJson = $this->product_reviews_json($productId);
 
@@ -419,6 +420,7 @@ class Rivio {
     }
 
     public function refresh_json_cache($date = NULL) {
+        date_default_timezone_set('UTC');
 
         $url = self::$api_base_url."/products/json_cache?api_key=".$this->api_key."&secret_key=".$this->secret_key;
 
@@ -463,10 +465,20 @@ class Rivio {
     }
 
     public function execute_cron() {
+        date_default_timezone_set('UTC');
+        $yesterday = date("Y-m-d_H:i:s", strtotime('-1 day'));
 
         $cacheAvailable = $this->initCache();
 
-        if ($cacheAvailable) {
+        $cacheSettings = $this->getCacheSettings();
+
+        $lastFullRefreshDate = $cacheSettings['last_full_refresh'];
+        $fullRefreshRequired = $lastFullRefreshDate < $yesterday;
+
+        if ($fullRefreshRequired) {
+            $this->updateCacheSettings();
+            $this->refresh_json_cache();
+        } else if ($cacheAvailable) {
             // Products, getting review(s) in the last 24 hours
             $date = date("Y-m-d_H:i:s", strtotime('-1 day'));
 
@@ -507,6 +519,46 @@ class Rivio {
         return $cacheAvailable;
     }
 
+    public function getCacheSettings() {
+        $jsonFilePath = $this->options['cache']['path'] . '/rivio-cache-settings.json';
+
+        date_default_timezone_set('UTC');
+
+        if (file_exists($jsonFilePath)) {
+            $jsonFile = fopen($jsonFilePath, 'r');
+            $cacheSettings = fread($jsonFile, filesize($jsonFilePath));
+            $cacheSettings = json_decode($cacheSettings, true);
+            fclose($jsonFile);
+        } else {
+            // Init cache settings
+            $jsonFile = fopen($jsonFilePath, 'w+');
+            $date = date('Y-m-d_H:i:s');
+            $cacheSettings = json_encode(array('last_full_refresh' => $date));
+            fwrite($jsonFile, $cacheSettings);
+            fclose($jsonFile);
+            $cacheSettings = json_decode($cacheSettings, true);
+        }
+
+        return $cacheSettings;
+    }
+
+    public function updateCacheSettings() {
+        $jsonFilePath = $this->options['cache']['path'] . '/rivio-cache-settings.json';
+
+        date_default_timezone_set('UTC');
+        $date = date('Y-m-d_H:i:s');
+
+        $jsonFile = fopen($jsonFilePath, 'w+');
+
+        $cacheSettings = fread($jsonFile, filesize($jsonFilePath));
+        $cacheSettings = json_decode($cacheSettings, true);
+        $cacheSettings['last_full_refresh'] = $date;
+
+        fwrite($jsonFile, json_encode($cacheSettings));
+        fclose($jsonFile);
+
+        return $cacheSettings;
+    }
 }
 
 ?>
