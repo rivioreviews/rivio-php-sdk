@@ -270,12 +270,9 @@ class Rivio {
     }
 
     private function fetchUrl($url) {
-
         $allowUrlFopen = preg_match('/1|yes|on|true/i', ini_get('allow_url_fopen'));
 
-        if ($allowUrlFopen) {
-            return file_get_contents($url);
-        } elseif (function_exists('curl_init')) {
+        if (function_exists('curl_init')) {
             $c = curl_init($url);
             curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
             $contents = curl_exec($c);
@@ -283,6 +280,8 @@ class Rivio {
             if (is_string($contents)) {
                 return $contents;
             }
+        } elseif ($allowUrlFopen) {
+            return file_get_contents($url);
         }
 
         return false;
